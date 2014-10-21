@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>main_mill_collet_holder (proj_collet_holder.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File proj_collet_holder.rb, line 106</span>
+<span class="ruby-keyword kw">def</span> <span class="ruby-identifier">main_mill_collet_holder</span>
+  <span class="ruby-comment cmt"># Wrench section</span>
+  <span class="ruby-identifier">wrench_depth</span> = <span class="ruby-value">-0</span><span class="ruby-value">.5</span>
+  <span class="ruby-identifier">mill</span> = <span class="ruby-constant">CNCMill</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">min_x</span> = <span class="ruby-value">0</span><span class="ruby-value">.0</span> 
+    <span class="ruby-comment cmt"># normally min_x is set to -7.0</span>
+    <span class="ruby-comment cmt"># which puts 0X in the center</span>
+    <span class="ruby-comment cmt"># of the material. For this run</span>
+    <span class="ruby-comment cmt"># we are aligning 0 to the left</span>
+    <span class="ruby-comment cmt"># end so we have to resent our</span>
+    <span class="ruby-comment cmt"># minimum or we would loose 1/2</span>
+    <span class="ruby-comment cmt"># the movement range.</span>
+  <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">job_start</span>()
+  <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">home</span>()
+  <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">mount_bit</span>(<span class="ruby-value">1</span>, <span class="ruby-value str">&quot;Mount bit rotozip  0.11 diam for main milling&quot;</span>)
+
+  <span class="ruby-comment cmt">#  TODO:Convert this to a data structure to allow easier</span>
+  <span class="ruby-comment cmt">#  positioning for furture labeling</span>
+
+  <span class="ruby-identifier">xinc</span> = <span class="ruby-value">0</span><span class="ruby-value">.65</span>
+  <span class="ruby-identifier">xloc</span> = <span class="ruby-value">0</span><span class="ruby-value">.4</span>
+  <span class="ruby-identifier">mill_collet_slot</span>(<span class="ruby-identifier">mill</span>, <span class="ruby-identifier">xloc</span>, <span class="ruby-constant">Mat_mid_y</span>, <span class="ruby-value">0</span><span class="ruby-value">.0</span>)
+  <span class="ruby-identifier">xloc</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">xinc</span>
+  <span class="ruby-identifier">mill_collet_slot</span>(<span class="ruby-identifier">mill</span>, <span class="ruby-identifier">xloc</span>, <span class="ruby-constant">Mat_mid_y</span>, <span class="ruby-value">0</span><span class="ruby-value">.30</span>)
+  <span class="ruby-identifier">xloc</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">xinc</span>
+  <span class="ruby-identifier">mill_collet_slot</span>(<span class="ruby-identifier">mill</span>, <span class="ruby-identifier">xloc</span>, <span class="ruby-constant">Mat_mid_y</span>, <span class="ruby-value">0</span><span class="ruby-value">.12</span>)
+  <span class="ruby-identifier">xloc</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">xinc</span>
+  <span class="ruby-identifier">mill_collet_slot</span>(<span class="ruby-identifier">mill</span>, <span class="ruby-identifier">xloc</span>, <span class="ruby-constant">Mat_mid_y</span>, <span class="ruby-value">0</span><span class="ruby-value">.15</span>)
+  <span class="ruby-identifier">xloc</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">xinc</span>
+  <span class="ruby-identifier">mill_collet_slot</span>(<span class="ruby-identifier">mill</span>, <span class="ruby-identifier">xloc</span>, <span class="ruby-constant">Mat_mid_y</span>, <span class="ruby-value">0</span><span class="ruby-value">.18</span>)
+  <span class="ruby-identifier">xloc</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">xinc</span>
+  <span class="ruby-identifier">mill_collet_slot</span>(<span class="ruby-identifier">mill</span>, <span class="ruby-identifier">xloc</span>, <span class="ruby-constant">Mat_mid_y</span>, <span class="ruby-value">0</span><span class="ruby-value">.21</span>)
+  <span class="ruby-identifier">xloc</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">xinc</span>
+  <span class="ruby-identifier">mill_collet_slot</span>(<span class="ruby-identifier">mill</span>, <span class="ruby-identifier">xloc</span>, <span class="ruby-constant">Mat_mid_y</span>, <span class="ruby-value">0</span><span class="ruby-value">.26</span>)
+  <span class="ruby-identifier">xloc</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">xinc</span>
+  <span class="ruby-identifier">mill_collet_slot</span>(<span class="ruby-identifier">mill</span>, <span class="ruby-identifier">xloc</span>, <span class="ruby-constant">Mat_mid_y</span>, <span class="ruby-value">0</span><span class="ruby-value">.27</span>)
+  <span class="ruby-identifier">xloc</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">xinc</span>
+
+  <span class="ruby-comment cmt">#  TODO:Convert this to a data structure to allow easier</span>
+  <span class="ruby-comment cmt">#  positioning for furture labeling</span>
+
+
+  <span class="ruby-comment cmt"># mill the larger hex pockets</span>
+  <span class="ruby-identifier">xinc</span> = <span class="ruby-value">0</span><span class="ruby-value">.35</span>
+  <span class="ruby-identifier">xloc</span> <span class="ruby-operator">+=</span> (<span class="ruby-identifier">xinc</span> <span class="ruby-operator">*</span> <span class="ruby-value">9.0</span>)
+  <span class="ruby-identifier">max_x</span> = <span class="ruby-identifier">xloc</span>
+  <span class="ruby-identifier">wrench_depth</span> = <span class="ruby-value">-0</span><span class="ruby-value">.5</span>
+  <span class="ruby-identifier">print</span> <span class="ruby-value str">&quot;(max_x=&quot;</span>, <span class="ruby-identifier">max_x</span>, <span class="ruby-value str">&quot;)\n&quot;</span>
+  <span class="ruby-identifier">mill_hex_pocket</span>(<span class="ruby-identifier">mill</span> = <span class="ruby-identifier">mill</span>, <span class="ruby-identifier">cent_x</span> = <span class="ruby-identifier">xloc</span>, <span class="ruby-identifier">cent_y</span> = <span class="ruby-constant">Mat_mid_y</span>,
+        <span class="ruby-identifier">diam</span>   = <span class="ruby-value">0</span><span class="ruby-value">.20</span>,  <span class="ruby-identifier">depth</span>  = <span class="ruby-identifier">wrench_depth</span>)
+  <span class="ruby-identifier">xloc</span> <span class="ruby-operator">-=</span> <span class="ruby-identifier">xinc</span>
+  <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">retract</span>()
+
+  <span class="ruby-identifier">mill_hex_pocket</span>(<span class="ruby-identifier">mill</span> = <span class="ruby-identifier">mill</span>, <span class="ruby-identifier">cent_x</span> = <span class="ruby-identifier">xloc</span>, <span class="ruby-identifier">cent_y</span> = <span class="ruby-constant">Mat_mid_y</span>,
+        <span class="ruby-identifier">diam</span>   = <span class="ruby-value">0</span><span class="ruby-value">.18</span>,  <span class="ruby-identifier">depth</span>  = <span class="ruby-identifier">wrench_depth</span>)
+  <span class="ruby-identifier">xloc</span> <span class="ruby-operator">-=</span> <span class="ruby-identifier">xinc</span>
+  <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">retract</span>()
+
+  <span class="ruby-identifier">mill_hex_pocket</span>(<span class="ruby-identifier">mill</span> = <span class="ruby-identifier">mill</span>, <span class="ruby-identifier">cent_x</span> = <span class="ruby-identifier">xloc</span>, <span class="ruby-identifier">cent_y</span> = <span class="ruby-constant">Mat_mid_y</span>,
+        <span class="ruby-identifier">diam</span>   = <span class="ruby-value">0</span><span class="ruby-value">.13</span>,  <span class="ruby-identifier">depth</span>  = <span class="ruby-identifier">wrench_depth</span>)
+  <span class="ruby-identifier">xloc</span> <span class="ruby-operator">-=</span> <span class="ruby-identifier">xinc</span>
+  <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">retract</span>()
+
+
+  <span class="ruby-comment cmt">#TODO:  Software should be smart enough to automatically request</span>
+  <span class="ruby-comment cmt"># smaller bit   </span>
+
+  <span class="ruby-comment cmt"># mill the smaller hex pockets</span>
+  <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">home</span>()
+  <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">mount_bit</span>(<span class="ruby-value">2</span>, <span class="ruby-value str">&quot;Mount bit 0.026 diam for small hex&quot;</span>)
+
+
+  <span class="ruby-identifier">mill_hex_pocket</span>(<span class="ruby-identifier">mill</span> = <span class="ruby-identifier">mill</span>, <span class="ruby-identifier">cent_x</span> = <span class="ruby-identifier">xloc</span>, <span class="ruby-identifier">cent_y</span> = <span class="ruby-constant">Mat_mid_y</span>,
+        <span class="ruby-identifier">diam</span>   = <span class="ruby-value">0</span><span class="ruby-value">.11</span>,  <span class="ruby-identifier">depth</span>  = <span class="ruby-identifier">wrench_depth</span>)
+  <span class="ruby-identifier">xloc</span> <span class="ruby-operator">-=</span> <span class="ruby-identifier">xinc</span>
+  <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">retract</span>()
+
+  <span class="ruby-identifier">mill_hex_pocket</span>(<span class="ruby-identifier">mill</span> = <span class="ruby-identifier">mill</span>, <span class="ruby-identifier">cent_x</span> = <span class="ruby-identifier">xloc</span>, <span class="ruby-identifier">cent_y</span> = <span class="ruby-constant">Mat_mid_y</span>,
+        <span class="ruby-identifier">diam</span>   = <span class="ruby-value">0</span><span class="ruby-value">.10</span>,  <span class="ruby-identifier">depth</span>  = <span class="ruby-identifier">wrench_depth</span>)
+  <span class="ruby-identifier">xloc</span> <span class="ruby-operator">-=</span> <span class="ruby-identifier">xinc</span>
+  <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">retract</span>()
+
+  <span class="ruby-identifier">mill_hex_pocket</span>(<span class="ruby-identifier">mill</span> = <span class="ruby-identifier">mill</span>, <span class="ruby-identifier">cent_x</span> = <span class="ruby-identifier">xloc</span>, <span class="ruby-identifier">cent_y</span> = <span class="ruby-constant">Mat_mid_y</span>,
+        <span class="ruby-identifier">diam</span>   = <span class="ruby-value">0</span><span class="ruby-value">.08</span>,  <span class="ruby-identifier">depth</span>  = <span class="ruby-identifier">wrench_depth</span>)
+  <span class="ruby-identifier">xloc</span> <span class="ruby-operator">-=</span> <span class="ruby-identifier">xinc</span>
+  <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">retract</span>()
+
+  <span class="ruby-identifier">mill_hex_pocket</span>(<span class="ruby-identifier">mill</span> = <span class="ruby-identifier">mill</span>, <span class="ruby-identifier">cent_x</span> = <span class="ruby-identifier">xloc</span>, <span class="ruby-identifier">cent_y</span> = <span class="ruby-constant">Mat_mid_y</span>,
+        <span class="ruby-identifier">diam</span>   = <span class="ruby-value">0</span><span class="ruby-value">.06</span>,  <span class="ruby-identifier">depth</span>  = <span class="ruby-identifier">wrench_depth</span>)
+  <span class="ruby-identifier">xloc</span> <span class="ruby-operator">-=</span> <span class="ruby-identifier">xinc</span>
+  <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">retract</span>()
+
+  <span class="ruby-identifier">mill_hex_pocket</span>(<span class="ruby-identifier">mill</span> = <span class="ruby-identifier">mill</span>, <span class="ruby-identifier">cent_x</span> = <span class="ruby-identifier">xloc</span>, <span class="ruby-identifier">cent_y</span> = <span class="ruby-constant">Mat_mid_y</span>,
+        <span class="ruby-identifier">diam</span>   = <span class="ruby-value">0</span><span class="ruby-value">.06</span>,  <span class="ruby-identifier">depth</span>  = <span class="ruby-identifier">wrench_depth</span>)
+  <span class="ruby-identifier">xloc</span> <span class="ruby-operator">-=</span> <span class="ruby-identifier">xinc</span>
+  <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">retract</span>()
+
+
+
+
+  <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">home</span>()
+  <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">pause</span>(<span class="ruby-value str">&quot;Turn material over for milling mounting holes | top should be towards Y 0&quot;</span>)
+  <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">mount_bit</span>(<span class="ruby-value">1</span>, <span class="ruby-value str">&quot;Mount bit 0.11 diam for milling mounting holdes&quot;</span>)
+
+  <span class="ruby-identifier">aCircle</span> = <span class="ruby-constant">CNCShapeCircle</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">mill</span>)
+
+    <span class="ruby-comment cmt"># mill out left mounting </span>
+    <span class="ruby-comment cmt"># hole</span>
+  <span class="ruby-identifier">aCircle</span>.<span class="ruby-identifier">mill_pocket</span>(<span class="ruby-identifier">x</span> = <span class="ruby-value">0</span><span class="ruby-value">.2</span>,
+                      <span class="ruby-identifier">y</span> = <span class="ruby-value">0</span><span class="ruby-value">.5</span>,
+                      <span class="ruby-identifier">diam</span> = <span class="ruby-value">0</span><span class="ruby-value">.14</span>,
+                      <span class="ruby-identifier">depth</span>= <span class="ruby-value">-1.0</span>,
+                      <span class="ruby-identifier">island_diam</span>= <span class="ruby-value">0</span>)
+
+  <span class="ruby-comment cmt"># Mill out right mounting </span>
+  <span class="ruby-comment cmt"># hole</span>
+  <span class="ruby-identifier">aCircle</span>.<span class="ruby-identifier">mill_pocket</span>(<span class="ruby-identifier">x</span> = <span class="ruby-identifier">max_x</span> <span class="ruby-operator">+</span> <span class="ruby-value">0</span><span class="ruby-value">.2</span>,
+                      <span class="ruby-identifier">y</span> = <span class="ruby-value">0</span><span class="ruby-value">.5</span>,
+                      <span class="ruby-identifier">diam</span> = <span class="ruby-value">0</span><span class="ruby-value">.14</span>,
+                      <span class="ruby-identifier">depth</span>= <span class="ruby-value">-1.0</span>,
+                      <span class="ruby-identifier">island_diam</span>= <span class="ruby-value">0</span>)
+
+  <span class="ruby-comment cmt"># TODO:  Add code here that will allow labeling</span>
+  <span class="ruby-comment cmt"># in english units on front of the block.</span>
+
+
+
+
+  <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">home</span>()
+  <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">job_finish</span>()
+
+<span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: CNCShapePolygon</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">CNCShapePolygon</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../files/cncShapePolygon_rb.html">
+                cncShapePolygon.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                Object
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+a class that mills out polygon pockets. and Polygon outlines
+*****************************************
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000186">circ_array</a>&nbsp;&nbsp;
+      <a href="#M000181">degree_inc=</a>&nbsp;&nbsp;
+      <a href="#M000184">do_mill</a>&nbsp;&nbsp;
+      <a href="#M000185">do_mill_s</a>&nbsp;&nbsp;
+      <a href="#M000180">new</a>&nbsp;&nbsp;
+      <a href="#M000182">set_outline</a>&nbsp;&nbsp;
+      <a href="#M000183">set_pocket</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+    <div id="includes">
+      <h3 class="section-bar">Included Modules</h3>
+
+      <div id="includes-list">
+        <span class="include-name"><a href="CNCShapeBase.html">CNCShapeBase</a></span>
+      </div>
+    </div>
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000180" class="method-detail">
+        <a name="M000180"></a>
+
+        <div class="method-heading">
+          <a href="CNCShapePolygon.src/M000180.html" target="Code" class="method-signature"
+            onclick="popupCode('CNCShapePolygon.src/M000180.html');return false;">
+          <span class="method-name">new</span><span class="method-args">(mill, cent_x, cent_y, start_z, diam=0.25, num_sides=6, depth=nil, degree_inc=nil)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <ul>
+<li>- - - - - - - - - - - - - - - - -
+
+</li>
+</ul>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000186" class="method-detail">
+        <a name="M000186"></a>
+
+        <div class="method-heading">
+          <a href="CNCShapePolygon.src/M000186.html" target="Code" class="method-signature"
+            onclick="popupCode('CNCShapePolygon.src/M000186.html');return false;">
+          <span class="method-name">circ_array</span><span class="method-args">(circ_x, circ_y, radius, beg_degree=0.0, end_degree = 360.0, num_elem=6)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <ul>
+<li>- - - - - - - - - - - - - - - - - - -
+
+</li>
+</ul>
+        </div>
+      </div>
+
+      <div id="method-M000181" class="method-detail">
+        <a name="M000181"></a>
+
+        <div class="method-heading">
+          <a href="CNCShapePolygon.src/M000181.html" target="Code" class="method-signature"
+            onclick="popupCode('CNCShapePolygon.src/M000181.html');return false;">
+          <span class="method-name">degree_inc=</span><span class="method-args">(aNum)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <ul>
+<li>- - - - - - - - - - - - - - - - -
+
+</li>
+</ul>
+        </div>
+      </div>
+
+      <div id="method-M000184" class="method-detail">
+        <a name="M000184"></a>
+
+        <div class="method-heading">
+          <a href="CNCShapePolygon.src/M000184.html" target="Code" class="method-signature"
+            onclick="popupCode('CNCShapePolygon.src/M000184.html');return false;">
+          <span class="method-name">do_mill</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+mills out a polygon object that has been loaded with essential data. The
+assumption is that cutter_compensation should be used to obtain a whole
+that exactly matches specified diameter. If the pocket is deep then
+multiple passes will be used to reach the depth. If pocket_flag is equal to
+true then the entire polygon will be milled out but if it is false then
+only the outline will be milled.
+</p>
+<ul>
+<li>- - - - - - - - - - - -
+
+</li>
+</ul>
+        </div>
+      </div>
+
+      <div id="method-M000185" class="method-detail">
+        <a name="M000185"></a>
+
+        <div class="method-heading">
+          <a href="CNCShapePolygon.src/M000185.html" target="Code" class="method-signature"
+            onclick="popupCode('CNCShapePolygon.src/M000185.html');return false;">
+          <span class="method-name">do_mill_s</span><span class="method-args">(tmp_depth)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Used by <a href="CNCShapePolygon.html#M000184">do_mill</a> to do most of
+the milling. It driectly plunges to the specified depth and begins the
+milling depending on <a href="CNCShapePolygon.html#M000184">do_mill</a> to
+properly handel multi layer milling.
+</p>
+<ul>
+<li>- - - - - - - - - - - -
+
+</li>
+</ul>
+        </div>
+      </div>
+
+      <div id="method-M000182" class="method-detail">
+        <a name="M000182"></a>
+
+        <div class="method-heading">
+          <a href="CNCShapePolygon.src/M000182.html" target="Code" class="method-signature"
+            onclick="popupCode('CNCShapePolygon.src/M000182.html');return false;">
+          <span class="method-name">set_outline</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+mill out as a outline
+</p>
+<ul>
+<li>- - - - - - - - - - - - - - - - -
+
+</li>
+</ul>
+        </div>
+      </div>
+
+      <div id="method-M000183" class="method-detail">
+        <a name="M000183"></a>
+
+        <div class="method-heading">
+          <a href="CNCShapePolygon.src/M000183.html" target="Code" class="method-signature"
+            onclick="popupCode('CNCShapePolygon.src/M000183.html');return false;">
+          <span class="method-name">set_pocket</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+mill out as a pocket
+</p>
+<ul>
+<li>- - - - - - - - - - - - - - - - -
+
+</li>
+</ul>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

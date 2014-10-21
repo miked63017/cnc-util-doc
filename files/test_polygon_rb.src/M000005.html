@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>test_octagon_outline (test_polygon.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File test_polygon.rb, line 53</span>
+<span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_octagon_outline</span>
+<span class="ruby-comment cmt">######################################</span>
+  <span class="ruby-identifier">aMill</span> = <span class="ruby-constant">CNCMill</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-identifier">aMill</span>.<span class="ruby-identifier">job_start</span>()
+  <span class="ruby-identifier">aMill</span>.<span class="ruby-identifier">home</span>()
+  <span class="ruby-comment cmt">#  variables used here to make</span>
+  <span class="ruby-comment cmt">#  easy for reader.</span>
+  <span class="ruby-identifier">aRes</span> = <span class="ruby-identifier">mill_polygon</span>(<span class="ruby-identifier">mill</span> = <span class="ruby-identifier">aMill</span>,
+     <span class="ruby-identifier">cent_x</span> = <span class="ruby-value">0</span><span class="ruby-value">.8</span>,   <span class="ruby-identifier">cent_y</span> = <span class="ruby-value">1.9</span>,
+     <span class="ruby-identifier">diam</span> = <span class="ruby-value">0</span><span class="ruby-value">.75</span>, <span class="ruby-identifier">num_side</span> = <span class="ruby-value">8</span>, 
+     <span class="ruby-identifier">depth</span>=<span class="ruby-value">-0</span><span class="ruby-value">.2</span>, 
+     <span class="ruby-identifier">cutter_comp</span>=<span class="ruby-keyword kw">true</span>)
+  <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">job_finish</span>()
+  <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">aRes</span>
+<span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

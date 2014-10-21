@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>new (CNCMill)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File cncMill.rb, line 31</span>
+   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">config_file_name</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-identifier">material_file_name</span>=<span class="ruby-keyword kw">nil</span>)
+   <span class="ruby-comment cmt"># - - - - - - - - - - - - - - - -</span>
+     <span class="ruby-ivar">@cz</span>          = <span class="ruby-value">0</span><span class="ruby-value">.0</span>
+     <span class="ruby-ivar">@cx</span>          = <span class="ruby-value">0</span><span class="ruby-value">.0</span>
+     <span class="ruby-ivar">@cy</span>          = <span class="ruby-value">0</span><span class="ruby-value">.0</span>
+     <span class="ruby-ivar">@speed_curr</span>  = <span class="ruby-value">15</span>
+     <span class="ruby-ivar">@speed_fast</span>  = <span class="ruby-value">15</span>
+     <span class="ruby-ivar">@speed_plung</span> = <span class="ruby-value">5</span>
+     <span class="ruby-ivar">@speed_normal</span>= <span class="ruby-value">12</span>
+     <span class="ruby-ivar">@speed_max</span>   = <span class="ruby-value">20</span>
+     <span class="ruby-ivar">@speed_finish</span>   = <span class="ruby-value">10</span>
+     <span class="ruby-ivar">@curr_bit</span>    = <span class="ruby-constant">CNCBit</span>.<span class="ruby-identifier">new</span>
+     <span class="ruby-ivar">@max_x_move</span>  = <span class="ruby-value">14</span>
+     <span class="ruby-ivar">@min_x</span>       = <span class="ruby-value">-7</span>
+     <span class="ruby-ivar">@max_x</span>       = <span class="ruby-ivar">@max_x_move</span> <span class="ruby-operator">-</span> <span class="ruby-ivar">@min_x</span>
+     <span class="ruby-ivar">@max_y</span>       = <span class="ruby-value">3.90</span>
+     <span class="ruby-ivar">@min_y</span>       = <span class="ruby-value">-0</span><span class="ruby-value">.35</span>
+     <span class="ruby-ivar">@max_z</span>       = <span class="ruby-value">4.0</span>
+     <span class="ruby-ivar">@min_z</span>       = <span class="ruby-value">-4.0</span>
+     <span class="ruby-ivar">@mill_depth</span>  = <span class="ruby-value">-0</span><span class="ruby-value">.2</span>
+     <span class="ruby-ivar">@retract_depth</span> = <span class="ruby-value">0</span><span class="ruby-value">.1</span>
+     <span class="ruby-ivar">@no_move_count</span> = <span class="ruby-value">0</span>
+
+     <span class="ruby-ivar">@spindle_rpm</span> = [<span class="ruby-value">10839</span>, <span class="ruby-value">6513</span>, <span class="ruby-value">4365</span>, <span class="ruby-value">2340</span>, <span class="ruby-value">1975</span>, <span class="ruby-value">1200</span>]
+       <span class="ruby-comment cmt"># RPM of spindel in Taig 2019 with belt positions starting</span>
+       <span class="ruby-comment cmt"># at the top and working towards the bottom.  This mill</span>
+       <span class="ruby-comment cmt"># seems to have a problem reaching full speed in the highest</span>
+       <span class="ruby-comment cmt"># position while all others seem to work OK.  These numbers are used</span>
+       <span class="ruby-comment cmt"># to calculate what belt postion to request based on the work material</span>
+       <span class="ruby-comment cmt"># and bit being used</span>
+
+
+     <span class="ruby-ivar">@fpm</span> = []
+       <span class="ruby-comment cmt"># This array maps the different F speeds to</span>
+       <span class="ruby-comment cmt"># Feet per min for the given mill, controller, stepper</span>
+       <span class="ruby-comment cmt"># motor combination.  This is used to map our calculations</span>
+       <span class="ruby-comment cmt"># for optimal feed rates into an approapriate feed.</span>
+
+     <span class="ruby-ivar">@ipm</span> = [] 
+       <span class="ruby-comment cmt"># Inches per minute at various F speeds</span>
+       <span class="ruby-comment cmt"># calculated from test_speed.</span>
+
+     <span class="ruby-ivar">@test_speed</span> = [<span class="ruby-value">82</span>,<span class="ruby-value">44</span>,<span class="ruby-value">30</span>,<span class="ruby-value">21</span>,<span class="ruby-value">19</span>,<span class="ruby-value">15</span>,<span class="ruby-value">12</span>,<span class="ruby-value">11</span>,<span class="ruby-value">9</span>,<span class="ruby-value">8</span>,<span class="ruby-value">7.5</span>,<span class="ruby-value">7</span>,<span class="ruby-value">6.5</span>,<span class="ruby-value">6.4</span>,<span class="ruby-value">6.2</span>,<span class="ruby-value">5.5</span>,<span class="ruby-value">5.4</span>,<span class="ruby-value">5.3</span>,<span class="ruby-value">4.5</span>,<span class="ruby-value">4</span>]
+       <span class="ruby-comment cmt"># empiracle test of speed of mill to move the X,Y axis one inch</span>
+       <span class="ruby-comment cmt"># at the same time.  Starting in F1 working up through F20</span>
+       <span class="ruby-comment cmt"># results are in number of seconds required for the move.  This</span>
+       <span class="ruby-comment cmt"># value is used to create a speed of feet per minute for the</span>
+       <span class="ruby-comment cmt"># various feed speeds</span>
+      
+     <span class="ruby-comment cmt"># computer inches per minute movement at</span>
+     <span class="ruby-comment cmt"># various F speeds.</span>
+     <span class="ruby-identifier">cc</span> = <span class="ruby-value">0</span>
+     <span class="ruby-keyword kw">for</span> <span class="ruby-identifier">aNoSec</span> <span class="ruby-keyword kw">in</span> <span class="ruby-ivar">@test_speed</span>
+       <span class="ruby-identifier">cc</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
+       <span class="ruby-identifier">inch_per_sec</span>  = <span class="ruby-value">1.0</span> <span class="ruby-operator">/</span> <span class="ruby-constant">Float</span>(<span class="ruby-identifier">aNoSec</span>)
+       <span class="ruby-identifier">inch_per_min</span>  = <span class="ruby-identifier">inch_per_sec</span> <span class="ruby-operator">*</span> <span class="ruby-value">60.0</span>
+       <span class="ruby-identifier">feet_per_min</span> = <span class="ruby-identifier">inch_per_min</span> <span class="ruby-operator">/</span> <span class="ruby-value">12.0</span>
+       <span class="ruby-ivar">@fpm</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">feet_per_min</span>)
+       <span class="ruby-ivar">@ipm</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">inch_per_min</span>)
+       <span class="ruby-identifier">print</span> <span class="ruby-value str">&quot;(F&quot;</span>, <span class="ruby-identifier">cc</span>, <span class="ruby-value str">&quot;FPM=&quot;</span>, <span class="ruby-identifier">feet_per_min</span>, <span class="ruby-value str">&quot; test speed=&quot;</span>, <span class="ruby-identifier">aNoSec</span>,<span class="ruby-value str">&quot;)\n&quot;</span>
+     <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#for</span>
+     
+   <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

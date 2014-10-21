@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: cncBit.rb</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>cncBit.rb</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>cncBit.rb
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Wed Jan 18 03:03:58 Mountain Standard Time 2006</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+cncBit.rb
+</p>
+<p>
+The loaded config files specifiy an array of
+</p>
+<pre>
+ off RPM,  load per tooth and recomended maximum
+ cut depth for each material.  These can be used by
+ the local bit to calculate maximum depth and feed
+ rates for a given bit.
+
+ normal consensus is to always feed a shallow depth
+ and move at a faster speed rather than take deep
+ cuts.  this changes however when doing finsh cuts
+ on sidewalls where we want to take the maximum
+ cut depth allowed by the flute while reducing the
+ amount of cut being taken into the sidewall and
+ reducing speed.
+</pre>
+<p>
+In generally we always equate everything to feed per tooth which we can
+adjust for varying conditions. We get our maximum rpm for a given bit size
+from the material however our local bit can adjust that setting such as
+carbide which is allowed to take a larger bite per tooth and run to run at
+a 100% higher RPM than high speed steel.
+</p>
+<p>
+SFM = surface feet per min = RPM * cutter_diam * 0.262 Chip Load = Feed
+Rate (in / min) / (RPM * number of cutting teeth)
+</p>
+<pre>
+   Chiploads are generally set from 0.002 to 0.005 however
+   aluminum can tolerate 0.15 when taking shallow cuts.
+</pre>
+<p>
+feed per tooth is the bite of material each tooth takes as it comes around.
+For example if a two flute bit is spinning at 1,000 RPM then is is taking
+2000 cuts per minut or 2000 / 60 = 33 cuts per second so if we want it to
+take 0.01 inchs per cut we would have to move it at a rate of 33 * 0.01 =
+.33 inches per second or 19.8 inches per minute.
+</p>
+<p>
+If the cut depth is increased then we have to decrease the feed rate by a
+proportional amount. This will only matter if we need to finish cut a
+sidewall so that we don&#8217;t see all the layered cuts.
+</p>
+<p>
+this calculation is based on the a full width cut. when we take a
+fractional cut we can increase the speed proportionally .
+</p>
+<p>
+ips (inch_per_second) = (rpm / 60) * number_of_teeth) * per_tooth_load
+</p>
+<pre>
+                          ((1000 * 60)* 2) * 0.01) = 0.33
+</pre>
+<p>
+ips has to be adjusted for current cut depth
+</p>
+<pre>
+    ips = ips * (recomended_cut_depth / (cur_cut_depth / recomended_cut_depth))
+       so for a cut depth of 1&quot; when the recomended cut
+       depth is 0.10  would solve as
+   ips = old_ips (0.33) * (0.1 / (1.0 / 0.1) = 0.01
+
+  ips also has to be adjusted for the cuting swath so
+  so for a cutting swath that is only 1/4&quot; the full swath
+  ips would be increased by 50%.  Only 50% of the bit cuts
+  anyway to we have to deduct the other 50%
+
+ See (C) notice in http://xdobs.com/cnc/CNCUtil/license.txt for license and copyright.
+</pre>
+
+    </div>
+
+    <div id="requires-list">
+      <h3 class="section-bar">Required files</h3>
+
+      <div class="name-list">
+      <a href="cncMaterial_rb.html">cncMaterial</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

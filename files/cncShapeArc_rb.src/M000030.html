@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>changing_arc (cncShapeArc.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File cncShapeArc.rb, line 64</span>
+<span class="ruby-keyword kw">def</span>  <span class="ruby-identifier">changing_arc</span>(<span class="ruby-identifier">mill</span>, <span class="ruby-identifier">circ_x</span>,<span class="ruby-identifier">circ_y</span>, <span class="ruby-identifier">beg_radius</span>, <span class="ruby-identifier">beg_angle</span>, <span class="ruby-identifier">end_radius</span>, <span class="ruby-identifier">end_angle</span>, 
+<span class="ruby-identifier">depth</span> = <span class="ruby-keyword kw">nil</span>,  <span class="ruby-identifier">degree_inc</span>=<span class="ruby-keyword kw">nil</span>)
+<span class="ruby-comment cmt"># - - - - - - - - - - - - - - - - - - - -</span>
+  <span class="ruby-comment cmt">#print &quot;(changing_arc  cir_x=&quot;, circ_x,  &quot; circ_y=&quot;, circ_y, &quot; beg_radius=&quot;, beg_radius, &quot; beg_angle=&quot;, beg_angle, &quot;  end_radius=&quot;, end_radius, &quot; end_angle=&quot;, end_angle, &quot; depth=&quot;, depth,  &quot;degree_inc =&quot;, degree_inc, &quot;)\n&quot;</span>
+  <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">depth</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">nil</span>)
+    <span class="ruby-identifier">depth</span> = <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">cz</span>
+  <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+
+  <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">degree_inc</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">nil</span>)
+    <span class="ruby-identifier">degree_inc</span> = <span class="ruby-value">0</span><span class="ruby-value">.5</span>
+  <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+
+  <span class="ruby-identifier">curr_deg</span>    = <span class="ruby-identifier">beg_angle</span>
+  <span class="ruby-identifier">degree_inc</span> = <span class="ruby-identifier">degree_inc</span>.<span class="ruby-identifier">abs</span>
+  <span class="ruby-identifier">radius_change</span> = (<span class="ruby-identifier">end_radius</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">beg_radius</span>)
+     <span class="ruby-comment cmt"># radius_change may be negative</span>
+     <span class="ruby-comment cmt"># in which case it is spiraling in</span>
+     <span class="ruby-comment cmt"># otherwise it is spiraling out</span>
+  <span class="ruby-identifier">sweep</span> = (<span class="ruby-identifier">end_angle</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">beg_angle</span>).<span class="ruby-identifier">abs</span>
+  <span class="ruby-identifier">no_steps</span> = <span class="ruby-identifier">sweep</span> <span class="ruby-operator">/</span> <span class="ruby-identifier">degree_inc</span>
+  <span class="ruby-identifier">radius_change_per_deg_inc</span>  = <span class="ruby-identifier">radius_change</span> <span class="ruby-operator">/</span> <span class="ruby-identifier">no_steps</span>
+  <span class="ruby-identifier">curr_radius</span>= <span class="ruby-identifier">beg_radius</span>
+  
+    <span class="ruby-identifier">pt_begin</span> = <span class="ruby-identifier">calc_point_from_angle</span>(<span class="ruby-identifier">circ_x</span>,<span class="ruby-identifier">circ_y</span>, <span class="ruby-identifier">curr_deg</span>, <span class="ruby-identifier">curr_radius</span>)
+
+
+  <span class="ruby-comment cmt"># if the current CX is not verry close to the</span>
+  <span class="ruby-comment cmt"># starting of this arc then we need to retract</span>
+  <span class="ruby-comment cmt"># prior to milling. </span>
+  <span class="ruby-keyword kw">if</span> ((<span class="ruby-identifier">mill</span>.<span class="ruby-identifier">cx</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">pt_begin</span>.<span class="ruby-identifier">x</span>).<span class="ruby-identifier">abs</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">bit_diam</span>) <span class="ruby-operator">||</span>
+  ((<span class="ruby-identifier">mill</span>.<span class="ruby-identifier">cy</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">pt_begin</span>.<span class="ruby-identifier">y</span>).<span class="ruby-identifier">abs</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">bit_diam</span>)
+    <span class="ruby-comment cmt">#print &quot;(changing arc auto retract)\n&quot;</span>
+    <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">retract</span>()
+  <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#else</span>
+  <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">move</span>(<span class="ruby-identifier">pt_begin</span>.<span class="ruby-identifier">x</span>, <span class="ruby-identifier">pt_begin</span>.<span class="ruby-identifier">y</span>)
+  <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">plung</span>(<span class="ruby-identifier">depth</span>)
+
+  <span class="ruby-keyword kw">while</span> (<span class="ruby-keyword kw">true</span>)
+      <span class="ruby-comment cmt">#print &quot;(changing_arc  curr_deg=&quot;, curr_deg, &quot;  curr_radius=&quot;, curr_radius, &quot; circ_x = &quot;, circ_x,  &quot;  circ_y=&quot;, circ_y, &quot;)\n&quot;</span>
+      <span class="ruby-identifier">cp</span> = <span class="ruby-identifier">calc_point_from_angle</span>(<span class="ruby-identifier">circ_x</span>,<span class="ruby-identifier">circ_y</span>, <span class="ruby-identifier">curr_deg</span>, <span class="ruby-identifier">curr_radius</span>)
+      <span class="ruby-comment cmt">#print &quot;(changing_arc cp.x=&quot;, cp.x, &quot; cp.y=&quot;, cp.y, &quot;)\n&quot;</span>
+      <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">move</span>(<span class="ruby-identifier">cp</span>.<span class="ruby-identifier">x</span>, <span class="ruby-identifier">cp</span>.<span class="ruby-identifier">y</span>)
+      <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">curr_deg</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">end_angle</span>)
+        <span class="ruby-keyword kw">break</span>    <span class="ruby-comment cmt"># finished milling final</span>
+                     <span class="ruby-comment cmt"># part of segment so done</span>
+      <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+
+      <span class="ruby-comment cmt"># update current degree. This additional</span>
+      <span class="ruby-comment cmt"># logic allows this method to mill both</span>
+      <span class="ruby-comment cmt"># an increasing arc and a decreasing arc</span>
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">beg_angle</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">end_angle</span>
+         <span class="ruby-comment cmt"># billin forward from lower degrees</span>
+         <span class="ruby-comment cmt"># towards higher ones</span>
+         <span class="ruby-identifier">curr_deg</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">degree_inc</span>
+         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">curr_deg</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">end_angle</span>
+            <span class="ruby-identifier">curr_deg</span> = <span class="ruby-identifier">end_angle</span>
+         <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+      <span class="ruby-keyword kw">else</span> <span class="ruby-comment cmt"># going in reverse</span>
+         <span class="ruby-identifier">curr_deg</span> <span class="ruby-operator">-=</span> <span class="ruby-identifier">degree_inc</span>
+         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">curr_deg</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">end_angle</span>
+           <span class="ruby-identifier">curr_deg</span> = <span class="ruby-identifier">end_angle</span>
+         <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#else</span>
+
+
+      <span class="ruby-identifier">curr_radius</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">radius_change_per_deg_inc</span>
+         <span class="ruby-comment cmt"># radius change_per_deg_inc may be negative</span>
+         <span class="ruby-comment cmt"># if end_radius is less than beg_radius and if</span>
+         <span class="ruby-comment cmt"># so will spiral in.  Otherwise will spiral out.</span>
+     
+   <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#while</span>
+<span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

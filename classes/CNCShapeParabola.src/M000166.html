@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>do_mill (CNCShapeParabola)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File cncShapeParabola.rb, line 215</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">do_mill</span>    
+    <span class="ruby-comment cmt"># - - - - - - - - - - - - - - - -        </span>
+      <span class="ruby-comment cmt"># # # # # # # #</span>
+      <span class="ruby-comment cmt"># # # BEGIN MAIN</span>
+      <span class="ruby-comment cmt"># # # # # # # # </span>
+      <span class="ruby-identifier">aRect</span> =  <span class="ruby-constant">CNCShapeRect</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@mill</span>) 
+      <span class="ruby-identifier">three_eights</span> = (<span class="ruby-value">3.0</span> <span class="ruby-operator">/</span> <span class="ruby-value">8.0</span>) <span class="ruby-operator">*</span> <span class="ruby-value">0</span><span class="ruby-value">.95</span>
+      <span class="ruby-identifier">set_speed_rough</span>()
+      <span class="ruby-comment cmt"># draw vertical line up the center</span>
+      <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">move</span>(<span class="ruby-value">0</span>, <span class="ruby-value">0</span>)
+      <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">plung</span>(<span class="ruby-value">-0</span><span class="ruby-value">.1</span>)
+      <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">move</span>(<span class="ruby-value">0</span>, <span class="ruby-ivar">@max_y</span> <span class="ruby-operator">+</span> <span class="ruby-value">3</span>)
+
+      <span class="ruby-comment cmt"># Draw Horizontal line to allow final </span>
+      <span class="ruby-comment cmt"># trim</span>
+      <span class="ruby-identifier">set_speed_rough</span>()
+      <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">retract</span>() 
+      <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">move_fast</span>(<span class="ruby-ivar">@min_x</span>, <span class="ruby-ivar">@max_y</span> <span class="ruby-operator">+</span> <span class="ruby-value">3</span>)
+      <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">plung</span>(<span class="ruby-value">-0</span><span class="ruby-value">.1</span>)
+      <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">move</span>(<span class="ruby-ivar">@max_x</span>, <span class="ruby-ivar">@max_y</span> <span class="ruby-operator">+</span> <span class="ruby-value">3</span>)
+      <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">retract</span>()
+
+      <span class="ruby-identifier">align_y</span> = <span class="ruby-identifier">min_y</span> <span class="ruby-operator">+</span> <span class="ruby-value">2.5</span>
+      <span class="ruby-identifier">mid_y</span> = (<span class="ruby-identifier">max_y</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">min_y</span>) <span class="ruby-operator">/</span> <span class="ruby-value">2</span>
+      <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">mid_y</span>) <span class="ruby-operator">&gt;</span> (<span class="ruby-identifier">align_y</span> <span class="ruby-operator">+</span> <span class="ruby-value">2</span>)
+         <span class="ruby-identifier">align_y</span> = <span class="ruby-identifier">mid_y</span>
+      <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+
+      <span class="ruby-comment cmt">#print &quot;(min_y=&quot;, min_y, &quot; max_y = &quot;, max_y, &quot; align_y=&quot;,  align_y, &quot;  mid_y = &quot;,  mid_y, &quot;)\n&quot;</span>
+
+
+       <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">retract</span>()
+      <span class="ruby-comment cmt"># Mill out center circle for the aiming axel</span>
+      <span class="ruby-identifier">aCircle</span> = <span class="ruby-constant">CNCShapeCircle</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@mill</span>)
+      <span class="ruby-identifier">aCircle</span>.<span class="ruby-identifier">mill_pocket</span>(<span class="ruby-ivar">@max_x</span> <span class="ruby-operator">-</span> <span class="ruby-value">1.0</span>, <span class="ruby-identifier">align_y</span>, <span class="ruby-identifier">three_eights</span>,  <span class="ruby-ivar">@depth</span>)
+      <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">retract</span>()
+      <span class="ruby-identifier">set_speed_rough</span>()
+
+      <span class="ruby-comment cmt"># mill out rectangular alignment hole</span>
+      <span class="ruby-identifier">aRect</span>.<span class="ruby-identifier">centered</span>(<span class="ruby-value">0</span>, <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">max_y</span> <span class="ruby-operator">-</span> <span class="ruby-value">0</span><span class="ruby-value">.5</span>, <span class="ruby-value">0</span><span class="ruby-value">.5</span>, <span class="ruby-value">0</span><span class="ruby-value">.5</span>, <span class="ruby-ivar">@depth</span>)
+      <span class="ruby-identifier">aRect</span>.<span class="ruby-identifier">do_mill</span>()  <span class="ruby-comment cmt"># Mill out alignment hole</span>
+      <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">retract</span>()
+      
+
+      <span class="ruby-comment cmt"># Mill out center circle for the aiming axel</span>
+      <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">retract</span>()
+      <span class="ruby-identifier">aCircle</span> = <span class="ruby-constant">CNCShapeCircle</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@mill</span>)
+      <span class="ruby-identifier">aCircle</span>.<span class="ruby-identifier">mill_pocket</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">min_y</span> <span class="ruby-operator">+</span> <span class="ruby-value">1.5</span>, <span class="ruby-value">1.04</span>, <span class="ruby-ivar">@depth</span>)
+      <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">retract</span>()
+      <span class="ruby-identifier">set_speed_rough</span>()
+
+
+      <span class="ruby-comment cmt"># mill out rectangular alignment hole</span>
+      <span class="ruby-comment cmt">#aRect.centered(@min_x+1.0, align_y, 0.5, 0.5, @depth)</span>
+      <span class="ruby-comment cmt">#aRect.do_mill()  </span>
+      <span class="ruby-comment cmt">#@mill.retract()</span>
+
+
+      <span class="ruby-comment cmt"># Mill out center circle for the aiming axel</span>
+      <span class="ruby-identifier">aCircle</span> = <span class="ruby-constant">CNCShapeCircle</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@mill</span>)
+      <span class="ruby-identifier">aCircle</span>.<span class="ruby-identifier">mill_pocket</span>(<span class="ruby-ivar">@min_x</span> <span class="ruby-operator">+</span> <span class="ruby-value">1.0</span>, <span class="ruby-identifier">align_y</span>,  <span class="ruby-identifier">three_eights</span>,  <span class="ruby-ivar">@depth</span>)
+      <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">retract</span>()
+      <span class="ruby-identifier">set_speed_rough</span>()
+
+
+
+      <span class="ruby-comment cmt"># Mill out the actual Arc</span>
+      <span class="ruby-identifier">mill_arc</span>(<span class="ruby-ivar">@depth</span>)  
+      <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">retract</span>()
+      <span class="ruby-identifier">set_speed_rough</span>()
+
+      <span class="ruby-comment cmt"># mill out flat edge on  side of parabola</span>
+      <span class="ruby-comment cmt"># will auto truncate  at machine limit for y</span>
+      <span class="ruby-comment cmt"># which is about 4 inches on mini mill.</span>
+      <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">retract</span>()
+      <span class="ruby-identifier">aRect</span>.<span class="ruby-identifier">skip_finish_cut</span>()
+      <span class="ruby-identifier">aRect</span>.<span class="ruby-identifier">reset</span>(
+          <span class="ruby-ivar">@min_x</span> <span class="ruby-operator">-</span> <span class="ruby-value">0</span><span class="ruby-value">.1</span>,
+          <span class="ruby-value">0</span><span class="ruby-value">.1</span>, 
+          <span class="ruby-ivar">@min_x</span> , 
+          <span class="ruby-ivar">@max_y</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@focus_y</span>, 
+          <span class="ruby-ivar">@depth</span>)
+      <span class="ruby-identifier">aRect</span>.<span class="ruby-identifier">skip_finish_cut</span>()
+      <span class="ruby-identifier">aRect</span>.<span class="ruby-identifier">do_mill</span>()
+      <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">retract</span>()
+      <span class="ruby-identifier">set_speed_rough</span>()
+
+      <span class="ruby-comment cmt"># mill out flat edge on other side of</span>
+      <span class="ruby-comment cmt"># parabola         </span>
+      <span class="ruby-comment cmt"># will auto truncate  at machine limit for y</span>
+      <span class="ruby-comment cmt"># which is about 4 inches on mini mill.</span>
+      <span class="ruby-identifier">aRect</span>.<span class="ruby-identifier">reset</span>(<span class="ruby-identifier">max_x</span>, 
+            <span class="ruby-value">0</span><span class="ruby-value">.1</span>,
+            <span class="ruby-ivar">@max_x</span> <span class="ruby-operator">+</span> <span class="ruby-value">0</span><span class="ruby-value">.1</span>, 
+            <span class="ruby-ivar">@max_y</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@focus_y</span>, 
+            <span class="ruby-ivar">@depth</span>)
+      <span class="ruby-identifier">aRect</span>.<span class="ruby-identifier">skip_finish_cut</span>()
+      <span class="ruby-identifier">aRect</span>.<span class="ruby-identifier">do_mill</span>()
+      <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">retract</span>()
+
+
+
+      <span class="ruby-comment cmt"># Move table to home position for next</span>
+      <span class="ruby-comment cmt"># milling operation</span>
+      <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">home</span>()
+
+   
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

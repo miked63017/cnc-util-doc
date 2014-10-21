@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>mill_circle (cncShapeCircle.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File cncShapeCircle.rb, line 13</span>
+   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">mill_circle</span>(<span class="ruby-identifier">mill</span>, <span class="ruby-identifier">x</span>,<span class="ruby-identifier">y</span>, <span class="ruby-identifier">diam</span>, <span class="ruby-identifier">depth</span>=<span class="ruby-ivar">@cz</span>, <span class="ruby-identifier">adjust_for_bit_radius</span>=<span class="ruby-keyword kw">false</span>)
+   <span class="ruby-comment cmt"># - - - - - - - - - - - - - - - - - -</span>
+     <span class="ruby-comment cmt">#print &quot;(mill circle x=&quot;, sprintf(&quot;%8.3f&quot;,x), &quot; y=&quot;, sprintf(&quot;%8.3f&quot;,y), &quot; diam=&quot;, sprintf(&quot;%8.3f&quot;,diam), &quot; depth=&quot;, depth, &quot;)\n&quot;</span>
+     <span class="ruby-identifier">print</span> <span class="ruby-identifier">sprintf</span>(<span class="ruby-value str">&quot;(mill circle x=%8.3f y=%8.3f diam=%8.3f  depth=%8.3f)\n&quot;</span>, <span class="ruby-identifier">x</span>,<span class="ruby-identifier">y</span>,<span class="ruby-identifier">diam</span>,<span class="ruby-identifier">depth</span>)
+     <span class="ruby-identifier">cradius</span> = <span class="ruby-identifier">diam</span> <span class="ruby-operator">/</span> <span class="ruby-value">2.0</span>
+
+     <span class="ruby-comment cmt"># If we need to adjust for radius then we subtract our</span>
+     <span class="ruby-comment cmt"># bit radius from our circle diameter prior to milling the</span>
+     <span class="ruby-comment cmt"># arc segments.</span>
+     <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">adjust_for_bit_radius</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">true</span>)
+       <span class="ruby-identifier">cradius</span> <span class="ruby-operator">-=</span> <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">bit_radius</span>
+     <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+
+     <span class="ruby-comment cmt"># calculate if the current cx,cy coordinates are outside</span>
+     <span class="ruby-comment cmt"># the circle and if so perform an automatic retract</span>
+     <span class="ruby-identifier">tRad</span> = <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">calc_distance</span>(<span class="ruby-identifier">mill</span>.<span class="ruby-identifier">cx</span>, <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">cy</span>, <span class="ruby-identifier">x</span>,<span class="ruby-identifier">y</span>)
+     <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">tRad</span> <span class="ruby-operator">&gt;</span> (<span class="ruby-identifier">cradius</span> <span class="ruby-operator">+</span> <span class="ruby-value">0</span><span class="ruby-value">.001</span>))  
+       <span class="ruby-comment cmt"># add 0.001 to allow for rounding error</span>
+       <span class="ruby-identifier">print</span> <span class="ruby-value str">&quot;(AUTO RETRACT in Mill Circle tRad=&quot;</span>, <span class="ruby-identifier">tRad</span>, <span class="ruby-value str">&quot;circle radius = &quot;</span>, <span class="ruby-identifier">cradius</span>, <span class="ruby-value str">&quot;)\n&quot;</span>
+       <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">retract</span>()
+     <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+
+
+     <span class="ruby-comment cmt"># TODO:  It is supposed to be possible to mill the </span>
+     <span class="ruby-comment cmt">#  complete circle with a single call but could not </span>
+     <span class="ruby-comment cmt">#  make it work with EMC so needs further experiments</span>
+     <span class="ruby-comment cmt"># </span>
+     <span class="ruby-comment cmt"># TODO: Double check this to for the mill climb direction</span>
+     <span class="ruby-comment cmt"># </span>
+
+     <span class="ruby-comment cmt"># Mill the 4 arc segments. </span>
+     <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">move</span>(<span class="ruby-identifier">x</span>,<span class="ruby-identifier">y</span><span class="ruby-operator">-</span><span class="ruby-identifier">cradius</span>)
+     <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">plung</span>(<span class="ruby-identifier">depth</span>)
+     <span class="ruby-identifier">mill_arc</span>(<span class="ruby-identifier">mill</span>, <span class="ruby-identifier">x</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">cradius</span>, <span class="ruby-identifier">y</span>, <span class="ruby-identifier">cradius</span>, <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">speed</span>, <span class="ruby-value str">&quot;G03&quot;</span>)
+     <span class="ruby-identifier">mill_arc</span>(<span class="ruby-identifier">mill</span>, <span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">cradius</span>, <span class="ruby-identifier">cradius</span>, <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">speed</span>, <span class="ruby-value str">&quot;G03&quot;</span>)
+     <span class="ruby-identifier">mill_arc</span>(<span class="ruby-identifier">mill</span>, <span class="ruby-identifier">x</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">cradius</span>, <span class="ruby-identifier">y</span>, <span class="ruby-identifier">cradius</span>, <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">speed</span>, <span class="ruby-value str">&quot;G03&quot;</span>)
+     <span class="ruby-identifier">mill_arc</span>(<span class="ruby-identifier">mill</span>, <span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">cradius</span>, <span class="ruby-identifier">cradius</span>, <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">speed</span>, <span class="ruby-value str">&quot;G03&quot;</span>)
+   <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

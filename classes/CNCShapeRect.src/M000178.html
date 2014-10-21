@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>mill_cavity (CNCShapeRect)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File cncShapeRect.rb, line 104</span>
+     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">mill_cavity</span>(<span class="ruby-identifier">lx</span>,<span class="ruby-identifier">ly</span>, <span class="ruby-identifier">mx</span>, <span class="ruby-identifier">my</span>, <span class="ruby-identifier">depth</span>)
+     <span class="ruby-comment cmt"># - - - - - - - - - - - - - - - -     </span>
+       <span class="ruby-identifier">print</span> <span class="ruby-value str">&quot; (mill cavity @depth=&quot;</span>, <span class="ruby-ivar">@depth</span>, <span class="ruby-value str">&quot; lx=&quot;</span>, <span class="ruby-identifier">lx</span>, <span class="ruby-value str">&quot; ly=&quot;</span>, <span class="ruby-identifier">ly</span>, <span class="ruby-value str">&quot; mx=&quot;</span>, <span class="ruby-identifier">mx</span>, <span class="ruby-value str">&quot; my=&quot;</span>,<span class="ruby-identifier">my</span>, <span class="ruby-value str">&quot; depth=&quot;</span>, <span class="ruby-identifier">depth</span>,  <span class="ruby-value str">&quot;)\n&quot;</span>
+      
+     <span class="ruby-comment cmt"># swap the X values to make mx the high one</span>
+      <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">lx</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">mx</span>)
+        <span class="ruby-identifier">print</span> <span class="ruby-value str">&quot;(mill_cavity swap lx,mx)\n&quot;</span>
+        <span class="ruby-identifier">tx</span> = <span class="ruby-identifier">mx</span>
+        <span class="ruby-identifier">mx</span> = <span class="ruby-identifier">lx</span>
+        <span class="ruby-identifier">lx</span> = <span class="ruby-identifier">tx</span>
+      <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+       
+     <span class="ruby-comment cmt"># swap Y values to make my the high one</span>
+      <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">ly</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">my</span>)
+        <span class="ruby-identifier">print</span> <span class="ruby-value str">&quot;(mill_cavity swap ly,my)\n&quot;</span>
+        <span class="ruby-identifier">ty</span> = <span class="ruby-identifier">my</span>
+        <span class="ruby-identifier">my</span> = <span class="ruby-identifier">ly</span>
+        <span class="ruby-identifier">ly</span> = <span class="ruby-identifier">ty</span>
+      <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+
+      <span class="ruby-comment cmt"># Adjust the interior Cavity</span>
+      <span class="ruby-comment cmt"># to allow for the size of the</span>
+      <span class="ruby-comment cmt"># bit or the milled cavity would </span>
+      <span class="ruby-comment cmt"># be too large   </span>
+      <span class="ruby-identifier">lx</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">bit_radius</span>
+      <span class="ruby-identifier">ly</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">bit_radius</span>
+      <span class="ruby-identifier">my</span> <span class="ruby-operator">-=</span> <span class="ruby-identifier">bit_radius</span>
+      <span class="ruby-identifier">mx</span> <span class="ruby-operator">-=</span> <span class="ruby-identifier">bit_radius</span>  
+      <span class="ruby-comment cmt">#print &quot;(after adjust for bit radius  lx=&quot;,lx, &quot; ly=&quot;,ly, &quot; mx=&quot;,mx, &quot; my=&quot;, my, &quot; bit_radius=&quot;, bit_radius, &quot;)&quot;, &quot;\n&quot;</span>
+
+
+      <span class="ruby-comment cmt"># if the bit is not already over the cavity to be</span>
+      <span class="ruby-comment cmt"># milled then we have to retract it before moving</span>
+      <span class="ruby-comment cmt"># to that location</span>
+      <span class="ruby-keyword kw">if</span> ((<span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">cx</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">lx</span>) <span class="ruby-keyword kw">or</span> (<span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">cx</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">mx</span>) <span class="ruby-keyword kw">or</span> (<span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">cy</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">ly</span>) <span class="ruby-keyword kw">or</span> (<span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">cy</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">my</span>)) 
+        <span class="ruby-identifier">print</span> <span class="ruby-value str">&quot;(mill_rect auto rectract)\n&quot;</span>
+        <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">retract</span>()
+        <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">move_fast</span>(<span class="ruby-identifier">lx</span>,<span class="ruby-identifier">ly</span>, <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">cz</span>)
+      <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+
+       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">depth</span>.<span class="ruby-identifier">abs</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-identifier">cut_depth_rough</span>.<span class="ruby-identifier">abs</span>
+         <span class="ruby-comment cmt">#print &quot;(simple mill square depth&quot;, depth, &quot;)&quot;, &quot;\n&quot;</span>
+         <span class="ruby-identifier">mill_cavity_s</span>(<span class="ruby-identifier">lx</span>,<span class="ruby-identifier">ly</span>,<span class="ruby-identifier">mx</span>,<span class="ruby-identifier">my</span>,<span class="ruby-identifier">depth</span>)
+         <span class="ruby-keyword kw">return</span>
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-identifier">dd</span> = <span class="ruby-value">0</span>
+        <span class="ruby-identifier">dd</span> = <span class="ruby-value">0</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">cut_depth_rough</span>.<span class="ruby-identifier">abs</span>      
+        <span class="ruby-keyword kw">while</span> <span class="ruby-keyword kw">true</span>
+          <span class="ruby-identifier">mill_cavity_s</span>(<span class="ruby-identifier">lx</span>,<span class="ruby-identifier">ly</span>,<span class="ruby-identifier">mx</span>,<span class="ruby-identifier">my</span>,<span class="ruby-identifier">dd</span>)
+          <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">dd</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-identifier">depth</span>)
+            <span class="ruby-keyword kw">break</span>
+          <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+          <span class="ruby-identifier">dd</span> <span class="ruby-operator">-=</span> <span class="ruby-identifier">cut_depth_rough</span>.<span class="ruby-identifier">abs</span>
+          <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">dd</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">depth</span>)
+            <span class="ruby-identifier">dd</span> = <span class="ruby-identifier">depth</span>
+          <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+        <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#while</span>
+      <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#else</span>
+      <span class="ruby-keyword kw">self</span>
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

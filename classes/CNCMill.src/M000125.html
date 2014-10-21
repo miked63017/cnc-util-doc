@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>mill_rect (CNCMill)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File cncMill.rb, line 528</span>
+   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">mill_rect</span>(<span class="ruby-identifier">lx</span>, <span class="ruby-identifier">ly</span>, <span class="ruby-identifier">mx</span>, <span class="ruby-identifier">my</span>, <span class="ruby-identifier">depth</span>, <span class="ruby-identifier">adjust_for_bit_radius</span>=<span class="ruby-keyword kw">false</span>)
+   <span class="ruby-comment cmt"># - - - - - - - - - - - - - - - -</span>
+     <span class="ruby-comment cmt"># if needed swap lx and mx to ensure that</span>
+     <span class="ruby-comment cmt"># lx is the smaller number</span>
+      <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">lx</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">mx</span>)
+        <span class="ruby-identifier">tt</span> = <span class="ruby-identifier">lx</span>
+        <span class="ruby-identifier">llx</span> = <span class="ruby-identifier">mx</span>
+        <span class="ruby-identifier">mx</span> = <span class="ruby-identifier">tt</span>
+     <span class="ruby-keyword kw">end</span>
+      
+     <span class="ruby-comment cmt"># if needed swap ly,my to make sure that</span>
+     <span class="ruby-comment cmt"># ly is the lower number.</span>
+     <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">ly</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">my</span>)
+       <span class="ruby-identifier">tt</span> = <span class="ruby-identifier">ly</span>
+       <span class="ruby-identifier">lly</span> = <span class="ruby-identifier">my</span>
+       <span class="ruby-identifier">my</span> = <span class="ruby-identifier">tt</span>
+     <span class="ruby-keyword kw">end</span>
+
+
+     <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">adjust_for_bit_radius</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">true</span>)
+       <span class="ruby-identifier">lbr</span> = <span class="ruby-identifier">bit_radius</span>
+       <span class="ruby-identifier">llx</span> = <span class="ruby-identifier">lx</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">br</span>
+       <span class="ruby-identifier">lly</span> = <span class="ruby-identifier">ly</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">br</span>
+       <span class="ruby-identifier">mx</span> = <span class="ruby-identifier">mx</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">br</span>
+       <span class="ruby-identifier">my</span> = <span class="ruby-identifier">my</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">br</span>
+     <span class="ruby-keyword kw">end</span>
+
+     <span class="ruby-comment cmt"># if our point is already inside the defined rectangle</span>
+     <span class="ruby-comment cmt"># then we assume it is safe to move without a retract</span>
+     <span class="ruby-keyword kw">if</span> ((<span class="ruby-ivar">@cx</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">lx</span>) <span class="ruby-operator">||</span> (<span class="ruby-ivar">@cx</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">mx</span>) <span class="ruby-operator">||</span> (<span class="ruby-ivar">@cy</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">ly</span>) <span class="ruby-operator">||</span> (<span class="ruby-ivar">@cy</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">my</span>))
+        <span class="ruby-identifier">rretract</span>()
+     <span class="ruby-keyword kw">end</span>
+
+     <span class="ruby-comment cmt"># walk around the perimiter of the sqare</span>
+     <span class="ruby-identifier">move</span>(<span class="ruby-identifier">lx</span>,<span class="ruby-identifier">ly</span>)
+     <span class="ruby-identifier">plung</span>(<span class="ruby-identifier">depth</span>)  <span class="ruby-comment cmt"># if already at correct depth will</span>
+                         <span class="ruby-comment cmt"># just ignore</span>
+     <span class="ruby-identifier">move</span>(<span class="ruby-identifier">lx</span>,<span class="ruby-identifier">ly</span>)
+     <span class="ruby-identifier">move</span>(<span class="ruby-identifier">lx</span>,<span class="ruby-identifier">my</span>)
+     <span class="ruby-identifier">move</span>(<span class="ruby-identifier">mx</span>,<span class="ruby-identifier">my</span>)
+     <span class="ruby-identifier">move</span>(<span class="ruby-identifier">mx</span>,<span class="ruby-identifier">ly</span>)
+     <span class="ruby-identifier">move</span>(<span class="ruby-identifier">lx</span>,<span class="ruby-identifier">ly</span>)
+
+   <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

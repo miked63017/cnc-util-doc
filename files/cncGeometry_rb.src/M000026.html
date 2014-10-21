@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>get_arc_points (cncGeometry.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File cncGeometry.rb, line 474</span>
+<span class="ruby-keyword kw">def</span>  <span class="ruby-identifier">get_arc_points</span>(<span class="ruby-identifier">cx</span>,<span class="ruby-identifier">cy</span>,<span class="ruby-identifier">radius</span>, <span class="ruby-identifier">beg_angle</span>, <span class="ruby-identifier">end_angle</span>, <span class="ruby-identifier">degree_inc</span> = <span class="ruby-value">1.0</span>)
+<span class="ruby-comment cmt"># - - - - - - - - - - - - - - - - - - - -</span>
+  <span class="ruby-identifier">deg</span> = <span class="ruby-identifier">beg_angle</span>
+  <span class="ruby-identifier">degree_inc</span> = <span class="ruby-identifier">degree_inc</span>.<span class="ruby-identifier">abs</span>
+  <span class="ruby-identifier">ares</span> = <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-keyword kw">while</span> (<span class="ruby-identifier">deg</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">end_angle</span>)
+      <span class="ruby-comment cmt">#print &quot;(deg = &quot;, deg, &quot;)\n&quot;</span>
+      <span class="ruby-identifier">cp</span> = <span class="ruby-identifier">calc_point_from_angle</span>(<span class="ruby-identifier">cx</span>,<span class="ruby-identifier">cy</span>, <span class="ruby-identifier">deg</span>, <span class="ruby-identifier">tradius</span>)
+      <span class="ruby-identifier">ares</span>.<span class="ruby-identifier">append</span>(<span class="ruby-identifier">cp</span>)
+      <span class="ruby-identifier">deg</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">degree_inc</span>
+   <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#while</span>
+<span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

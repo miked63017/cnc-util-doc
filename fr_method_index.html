@@ -1,0 +1,237 @@
+
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!--
+
+    Methods
+
+  -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Methods</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="rdoc-style.css" type="text/css" />
+  <base target="docwin" />
+</head>
+<body>
+<div id="index">
+  <h1 class="section-bar">Methods</h1>
+  <div id="index-entries">
+    <a href="classes/CNCPolar.html#M000171">angle (CNCPolar)</a><br />
+    <a href="classes/CNCMill.html#M000128">apply_limits (CNCMill)</a><br />
+    <a href="files/cncShapeArc_rb.html#M000032">arc_segment_pocket (cncShapeArc.rb)</a><br />
+    <a href="files/cncShapeArc_rb.html#M000033">arc_segment_pocket_adv (cncShapeArc.rb)</a><br />
+    <a href="files/test_arc_pocket_rb.html#M000036">arc_test_0 (test_arc_pocket.rb)</a><br />
+    <a href="files/test_arc_pocket_rb.html#M000039">arc_test_2 (test_arc_pocket.rb)</a><br />
+    <a href="files/test_arc_pocket_spiral_rb.html#M000041">arc_test_3 (test_arc_pocket_spiral.rb)</a><br />
+    <a href="files/test_arc_pocket_rb.html#M000037">arc_test_easy_array (test_arc_pocket.rb)</a><br />
+    <a href="files/test_arc_pocket_rb.html#M000038">arc_test_manual_array (test_arc_pocket.rb)</a><br />
+    <a href="classes/CNCShapeBase.html#M000188">base_init (CNCShapeBase)</a><br />
+    <a href="classes/CNCShapeArc.html#M000069">beg_angle (CNCShapeArc)</a><br />
+    <a href="classes/CNCShapeArc.html#M000068">beg_max_radius (CNCShapeArc)</a><br />
+    <a href="classes/CNCShapeArc.html#M000067">beg_min_radius (CNCShapeArc)</a><br />
+    <a href="classes/CNCShapeBase.html#M000199">bit_diam (CNCShapeBase)</a><br />
+    <a href="classes/CNCMill.html#M000094">bit_diam (CNCMill)</a><br />
+    <a href="classes/CNCBit.html#M000142">bit_len (CNCBit)</a><br />
+    <a href="classes/CNCBit.html#M000143">bit_len= (CNCBit)</a><br />
+    <a href="classes/CNCShapeBase.html#M000198">bit_radius (CNCShapeBase)</a><br />
+    <a href="classes/CNCMill.html#M000093">bit_radius (CNCMill)</a><br />
+    <a href="classes/Test_loader.html#M000044">bit_size= (Test_loader)</a><br />
+    <a href="classes/Test_loader.html#M000043">bitz (Test_loader)</a><br />
+    <a href="files/cncGeometry_rb.html#M000017">calc_angle (cncGeometry.rb)</a><br />
+    <a href="files/cncGeometry_rb.html#M000023">calc_center_point (cncGeometry.rb)</a><br />
+    <a href="classes/CNCMill.html#M000127">calc_distance (CNCMill)</a><br />
+    <a href="files/cncGeometry_rb.html#M000013">calc_distance (cncGeometry.rb)</a><br />
+    <a href="files/cncGeometry_rb.html#M000024">calc_extents_for_array (cncGeometry.rb)</a><br />
+    <a href="files/cncGeometry_rb.html#M000021">calc_point_from_angle (cncGeometry.rb)</a><br />
+    <a href="files/cncGeometry_rb.html#M000019">calc_point_rotated_abs (cncGeometry.rb)</a><br />
+    <a href="files/cncGeometry_rb.html#M000018">calc_point_rotated_relative (cncGeometry.rb)</a><br />
+    <a href="files/cncGeometry_rb.html#M000022">calc_points_for_arc (cncGeometry.rb)</a><br />
+    <a href="files/cncGeometry_rb.html#M000012">calc_slope (cncGeometry.rb)</a><br />
+    <a href="classes/CNCShapeParabola.html#M000163">calc_y (CNCShapeParabola)</a><br />
+    <a href="files/cncShapeArc_rb.html#M000031">calculate_extent (cncShapeArc.rb)</a><br />
+    <a href="classes/CNCShapeRect.html#M000173">centered (CNCShapeRect)</a><br />
+    <a href="files/cncShapeArc_rb.html#M000030">changing_arc (cncShapeArc.rb)</a><br />
+    <a href="classes/CNCShapeArc.html#M000066">check_parms (CNCShapeArc)</a><br />
+    <a href="classes/CNCShapePolygon.html#M000186">circ_array (CNCShapePolygon)</a><br />
+    <a href="classes/CNCShapeArc.html#M000076">circ_array (CNCShapeArc)</a><br />
+    <a href="classes/CNCShapeCircArray.html#M000130">circle (CNCShapeCircArray)</a><br />
+    <a href="files/cncGeometry_rb.html#M000010">conv_degree_to_radian (cncGeometry.rb)</a><br />
+    <a href="files/cncGeometry_rb.html#M000015">conv_polar_to_xy (cncGeometry.rb)</a><br />
+    <a href="files/cncGeometry_rb.html#M000011">conv_radian_to_degree (cncGeometry.rb)</a><br />
+    <a href="files/cncGeometry_rb.html#M000014">conv_xy_to_polar (cncGeometry.rb)</a><br />
+    <a href="classes/CNCShapeBase.html#M000191">current_bit (CNCShapeBase)</a><br />
+    <a href="classes/CNCMill.html#M000092">current_bit (CNCMill)</a><br />
+    <a href="classes/CNCMill.html#M000101">cut_depth_finish (CNCMill)</a><br />
+    <a href="classes/CNCBit.html#M000150">cut_depth_finish (CNCBit)</a><br />
+    <a href="classes/CNCShapeBase.html#M000204">cut_depth_finish (CNCShapeBase)</a><br />
+    <a href="classes/CNCBit.html#M000151">cut_depth_inc_curr (CNCBit)</a><br />
+    <a href="classes/CNCMill.html#M000099">cut_depth_inc_curr (CNCMill)</a><br />
+    <a href="classes/CNCBit.html#M000149">cut_depth_rough (CNCBit)</a><br />
+    <a href="classes/CNCMill.html#M000100">cut_depth_rough (CNCMill)</a><br />
+    <a href="classes/CNCShapeBase.html#M000203">cut_depth_rough (CNCShapeBase)</a><br />
+    <a href="classes/CNCMill.html#M000096">cut_increment (CNCMill)</a><br />
+    <a href="classes/CNCMill.html#M000098">cut_increment_finish (CNCMill)</a><br />
+    <a href="classes/CNCShapeBase.html#M000202">cut_increment_finish (CNCShapeBase)</a><br />
+    <a href="classes/CNCBit.html#M000148">cut_increment_finish (CNCBit)</a><br />
+    <a href="classes/CNCBit.html#M000147">cut_increment_rough (CNCBit)</a><br />
+    <a href="classes/CNCShapeBase.html#M000201">cut_increment_rough (CNCShapeBase)</a><br />
+    <a href="classes/CNCMill.html#M000097">cut_increment_rough (CNCMill)</a><br />
+    <a href="classes/CNCShapeBase.html#M000210">cx (CNCShapeBase)</a><br />
+    <a href="classes/CNCMill.html#M000090">cx (CNCMill)</a><br />
+    <a href="classes/CNCMill.html#M000091">cy (CNCMill)</a><br />
+    <a href="classes/CNCShapeBase.html#M000211">cy (CNCShapeBase)</a><br />
+    <a href="classes/CNCShapeBase.html#M000209">cz (CNCShapeBase)</a><br />
+    <a href="classes/CNCMill.html#M000089">cz (CNCMill)</a><br />
+    <a href="files/temp-hold_rb.html#M000028">decreasing_arc (temp-hold.rb)</a><br />
+    <a href="classes/CNCShapeArc.html#M000073">degree_inc (CNCShapeArc)</a><br />
+    <a href="classes/CNCShapePolygon.html#M000181">degree_inc= (CNCShapePolygon)</a><br />
+    <a href="classes/CNCShapeCircArray.html#M000134">degree_increment (CNCShapeCircArray)</a><br />
+    <a href="classes/CNCShapeBase.html#M000195">depth (CNCShapeBase)</a><br />
+    <a href="classes/CNCBit.html#M000144">diam (CNCBit)</a><br />
+    <a href="classes/CNCBit.html#M000145">diam= (CNCBit)</a><br />
+    <a href="classes/CNCPolar.html#M000170">dist (CNCPolar)</a><br />
+    <a href="classes/CNCShapeCircle.html#M000153">do_mill (CNCShapeCircle)</a><br />
+    <a href="classes/CNCShapeRect.html#M000177">do_mill (CNCShapeRect)</a><br />
+    <a href="classes/CNCShapePolygon.html#M000184">do_mill (CNCShapePolygon)</a><br />
+    <a href="classes/CNCShapeArc.html#M000074">do_mill (CNCShapeArc)</a><br />
+    <a href="classes/CNCShapeParabola.html#M000166">do_mill (CNCShapeParabola)</a><br />
+    <a href="classes/CNCShapeScroll.html#M000048">do_mill (CNCShapeScroll)</a><br />
+    <a href="classes/CNCShapeArc.html#M000075">do_mill_s (CNCShapeArc)</a><br />
+    <a href="classes/CNCShapePolygon.html#M000185">do_mill_s (CNCShapePolygon)</a><br />
+    <a href="classes/CNCShapeScroll.html#M000049">do_mill_x (CNCShapeScroll)</a><br />
+    <a href="classes/CNCShapeArc.html#M000072">end_angle (CNCShapeArc)</a><br />
+    <a href="classes/CNCShapeCircArray.html#M000133">end_degree (CNCShapeCircArray)</a><br />
+    <a href="classes/CNCShapeArc.html#M000071">end_max_radius (CNCShapeArc)</a><br />
+    <a href="classes/CNCShapeArc.html#M000070">end_min_radius (CNCShapeArc)</a><br />
+    <a href="classes/CNCShapeBase.html#M000200">flute_len (CNCShapeBase)</a><br />
+    <a href="classes/CNCBit.html#M000140">flute_len (CNCBit)</a><br />
+    <a href="classes/CNCMill.html#M000095">flute_len (CNCMill)</a><br />
+    <a href="classes/CNCBit.html#M000141">flute_len= (CNCBit)</a><br />
+    <a href="classes/CNCShapeParabola.html#M000161">focus_y (CNCShapeParabola)</a><br />
+    <a href="classes/Test_loader.html#M000042">funcx (Test_loader)</a><br />
+    <a href="files/cncGeometry_rb.html#M000026">get_arc_points (cncGeometry.rb)</a><br />
+    <a href="classes/CNCMill.html#M000111">home (CNCMill)</a><br />
+    <a href="classes/CNCShapeBase.html#M000208">home (CNCShapeBase)</a><br />
+    <a href="classes/CNCShapeRect.html#M000175">include_finish_cut (CNCShapeRect)</a><br />
+    <a href="files/temp-hold_rb.html#M000027">increasing_arc (temp-hold.rb)</a><br />
+    <a href="classes/CNCMill.html#M000085">job_finish (CNCMill)</a><br />
+    <a href="classes/CNCMill.html#M000084">job_start (CNCMill)</a><br />
+    <a href="files/proj_collet_holder_rb.html#M000002">main_mill_collet_holder (proj_collet_holder.rb)</a><br />
+    <a href="classes/CNCShapeBase.html#M000189">max (CNCShapeBase)</a><br />
+    <a href="classes/CNCExtent.html#M000052">max= (CNCExtent)</a><br />
+    <a href="classes/CNCExtent.html#M000060">max_x (CNCExtent)</a><br />
+    <a href="classes/CNCShapeParabola.html#M000157">max_x (CNCShapeParabola)</a><br />
+    <a href="classes/CNCMill.html#M000119">max_x (CNCMill)</a><br />
+    <a href="classes/CNCExtent.html#M000059">max_x= (CNCExtent)</a><br />
+    <a href="classes/CNCMill.html#M000116">max_x_move= (CNCMill)</a><br />
+    <a href="classes/CNCExtent.html#M000056">max_y (CNCExtent)</a><br />
+    <a href="classes/CNCMill.html#M000115">max_y (CNCMill)</a><br />
+    <a href="classes/CNCShapeParabola.html#M000159">max_y (CNCShapeParabola)</a><br />
+    <a href="classes/CNCExtent.html#M000055">max_y= (CNCExtent)</a><br />
+    <a href="classes/CNCMill.html#M000114">max_y= (CNCMill)</a><br />
+    <a href="classes/CNCExtent.html#M000064">max_z (CNCExtent)</a><br />
+    <a href="classes/CNCMill.html#M000123">max_z (CNCMill)</a><br />
+    <a href="classes/CNCMill.html#M000122">max_z= (CNCMill)</a><br />
+    <a href="classes/CNCExtent.html#M000063">max_z= (CNCExtent)</a><br />
+    <a href="classes/CNCShapeBase.html#M000197">mill (CNCShapeBase)</a><br />
+    <a href="files/cncShapeArc_rb.html#M000029">mill_arc (cncShapeArc.rb)</a><br />
+    <a href="classes/CNCShapeParabola.html#M000164">mill_arc (CNCShapeParabola)</a><br />
+    <a href="classes/CNCShapeParabola.html#M000165">mill_arc_s (CNCShapeParabola)</a><br />
+    <a href="classes/CNCShapeRect.html#M000178">mill_cavity (CNCShapeRect)</a><br />
+    <a href="classes/CNCShapeRect.html#M000179">mill_cavity_s (CNCShapeRect)</a><br />
+    <a href="files/cncShapeCircle_rb.html#M000008">mill_circle (cncShapeCircle.rb)</a><br />
+    <a href="files/proj_collet_holder_rb.html#M000001">mill_collet_slot (proj_collet_holder.rb)</a><br />
+    <a href="classes/CNCMill.html#M000106">mill_depth (CNCMill)</a><br />
+    <a href="files/cncShapePolygon_rb.html#M000034">mill_hex_pocket (cncShapePolygon.rb)</a><br />
+    <a href="classes/CNCShapeCircle.html#M000154">mill_pocket (CNCShapeCircle)</a><br />
+    <a href="classes/CNCShapeCircle.html#M000155">mill_pocket_s (CNCShapeCircle)</a><br />
+    <a href="files/cncShapePolygon_rb.html#M000035">mill_polygon (cncShapePolygon.rb)</a><br />
+    <a href="classes/CNCMill.html#M000125">mill_rect (CNCMill)</a><br />
+    <a href="classes/CNCMill.html#M000126">mill_rect_centered (CNCMill)</a><br />
+    <a href="files/cncShapeSpiral_rb.html#M000040">mill_spiral (cncShapeSpiral.rb)</a><br />
+    <a href="classes/CNCShapeBase.html#M000190">min (CNCShapeBase)</a><br />
+    <a href="classes/CNCExtent.html#M000051">min= (CNCExtent)</a><br />
+    <a href="classes/CNCExtent.html#M000061">min_a= (CNCExtent)</a><br />
+    <a href="classes/CNCMill.html#M000120">min_a= (CNCMill)</a><br />
+    <a href="classes/CNCMill.html#M000118">min_x (CNCMill)</a><br />
+    <a href="classes/CNCExtent.html#M000058">min_x (CNCExtent)</a><br />
+    <a href="classes/CNCShapeParabola.html#M000158">min_x (CNCShapeParabola)</a><br />
+    <a href="classes/CNCMill.html#M000117">min_x= (CNCMill)</a><br />
+    <a href="classes/CNCExtent.html#M000057">min_x= (CNCExtent)</a><br />
+    <a href="classes/CNCShapeParabola.html#M000160">min_y (CNCShapeParabola)</a><br />
+    <a href="classes/CNCMill.html#M000113">min_y (CNCMill)</a><br />
+    <a href="classes/CNCExtent.html#M000054">min_y (CNCExtent)</a><br />
+    <a href="classes/CNCExtent.html#M000053">min_y= (CNCExtent)</a><br />
+    <a href="classes/CNCMill.html#M000112">min_y= (CNCMill)</a><br />
+    <a href="classes/CNCExtent.html#M000062">min_z (CNCExtent)</a><br />
+    <a href="classes/CNCMill.html#M000121">min_z (CNCMill)</a><br />
+    <a href="classes/CNCMill.html#M000087">mount_bit (CNCMill)</a><br />
+    <a href="classes/CNCMill.html#M000088">move (CNCMill)</a><br />
+    <a href="classes/CNCMill.html#M000124">move_fast (CNCMill)</a><br />
+    <a href="classes/CNCMill.html#M000102">move_y (CNCMill)</a><br />
+    <a href="classes/CNCMill.html#M000103">move_z (CNCMill)</a><br />
+    <a href="classes/CNC/Material.html#M000187">new (CNC::Material)</a><br />
+    <a href="classes/CNCShapeParabola.html#M000156">new (CNCShapeParabola)</a><br />
+    <a href="classes/CNCExtent.html#M000050">new (CNCExtent)</a><br />
+    <a href="classes/CNCShapeArc.html#M000065">new (CNCShapeArc)</a><br />
+    <a href="classes/CNCShapeRect.html#M000172">new (CNCShapeRect)</a><br />
+    <a href="classes/CNCBit.html#M000139">new (CNCBit)</a><br />
+    <a href="classes/CNCMill.html#M000083">new (CNCMill)</a><br />
+    <a href="classes/CNCPoint.html#M000077">new (CNCPoint)</a><br />
+    <a href="classes/CNCShapeCircArray.html#M000129">new (CNCShapeCircArray)</a><br />
+    <a href="classes/CNCShapePolygon.html#M000180">new (CNCShapePolygon)</a><br />
+    <a href="classes/CNCShapeCircle.html#M000152">new (CNCShapeCircle)</a><br />
+    <a href="classes/CNCShapeScroll.html#M000047">new (CNCShapeScroll)</a><br />
+    <a href="classes/CNCPolar.html#M000167">new (CNCPolar)</a><br />
+    <a href="classes/Test_loader.html#M000045">new (Test_loader)</a><br />
+    <a href="classes/CNCShapeCircArray.html#M000137">num_steps (CNCShapeCircArray)</a><br />
+    <a href="classes/CNCMill.html#M000086">pause (CNCMill)</a><br />
+    <a href="classes/CNCMill.html#M000105">plung (CNCMill)</a><br />
+    <a href="files/cncGeometry_rb.html#M000016">polar_to_xy_ (cncGeometry.rb)</a><br />
+    <a href="classes/Test_loader.html#M000046">prints (Test_loader)</a><br />
+    <a href="classes/CNCBit.html#M000146">radius (CNCBit)</a><br />
+    <a href="classes/CNCShapeCircArray.html#M000131">radius (CNCShapeCircArray)</a><br />
+    <a href="classes/CNCShapeRect.html#M000174">reset (CNCShapeRect)</a><br />
+    <a href="classes/CNCShapeBase.html#M000196">retract (CNCShapeBase)</a><br />
+    <a href="classes/CNCMill.html#M000104">retract (CNCMill)</a><br />
+    <a href="files/cncGeometry_rb.html#M000025">rotate_array (cncGeometry.rb)</a><br />
+    <a href="files/cncGeometry_rb.html#M000020">rotate_object (cncGeometry.rb)</a><br />
+    <a href="classes/CNCShapeCircArray.html#M000138">set_full_circle (CNCShapeCircArray)</a><br />
+    <a href="classes/CNCShapeCircArray.html#M000135">set_num_steps (CNCShapeCircArray)</a><br />
+    <a href="classes/CNCShapePolygon.html#M000182">set_outline (CNCShapePolygon)</a><br />
+    <a href="classes/CNCShapePolygon.html#M000183">set_pocket (CNCShapePolygon)</a><br />
+    <a href="classes/CNCMill.html#M000108">set_speed (CNCMill)</a><br />
+    <a href="classes/CNCShapeBase.html#M000205">set_speed (CNCShapeBase)</a><br />
+    <a href="classes/CNCShapeBase.html#M000207">set_speed_finish (CNCShapeBase)</a><br />
+    <a href="classes/CNCMill.html#M000110">set_speed_finish (CNCMill)</a><br />
+    <a href="classes/CNCMill.html#M000109">set_speed_rough (CNCMill)</a><br />
+    <a href="classes/CNCShapeBase.html#M000206">set_speed_rough (CNCShapeBase)</a><br />
+    <a href="classes/CNCShapeRect.html#M000176">skip_finish_cut (CNCShapeRect)</a><br />
+    <a href="classes/CNCMill.html#M000107">speed (CNCMill)</a><br />
+    <a href="classes/CNCShapeCircArray.html#M000132">start_degree (CNCShapeCircArray)</a><br />
+    <a href="classes/CNCShapeCircArray.html#M000136">sweep (CNCShapeCircArray)</a><br />
+    <a href="files/test_polygon_rb.html#M000003">test_hexagon (test_polygon.rb)</a><br />
+    <a href="files/test_polygon_rb.html#M000005">test_octagon_outline (test_polygon.rb)</a><br />
+    <a href="files/test_polygon_rb.html#M000006">test_octagon_pocket (test_polygon.rb)</a><br />
+    <a href="files/test_polygon_rb.html#M000004">test_pentagon_outline (test_polygon.rb)</a><br />
+    <a href="files/test_polygon_rb.html#M000007">test_polygon_array (test_polygon.rb)</a><br />
+    <a href="classes/CNCPoint.html#M000079">to_ (CNCPoint)</a><br />
+    <a href="classes/CNCPolar.html#M000169">to_cncPoint (CNCPolar)</a><br />
+    <a href="files/cncGeometry_rb.html#M000009">to_f (cncGeometry.rb)</a><br />
+    <a href="classes/CNCPoint.html#M000078">to_s (CNCPoint)</a><br />
+    <a href="classes/CNCPolar.html#M000168">to_s (CNCPolar)</a><br />
+    <a href="classes/CNCShapeParabola.html#M000162">width (CNCShapeParabola)</a><br />
+    <a href="classes/CNCPoint.html#M000080">x (CNCPoint)</a><br />
+    <a href="classes/CNCShapeBase.html#M000192">x (CNCShapeBase)</a><br />
+    <a href="classes/CNCPoint.html#M000081">y (CNCPoint)</a><br />
+    <a href="classes/CNCShapeBase.html#M000193">y (CNCShapeBase)</a><br />
+    <a href="classes/CNCShapeBase.html#M000194">z (CNCShapeBase)</a><br />
+    <a href="classes/CNCPoint.html#M000082">z (CNCPoint)</a><br />
+  </div>
+</div>
+</body>
+</html>

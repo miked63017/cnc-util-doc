@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>mill_pocket_s (CNCShapeCircle)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File cncShapeCircle.rb, line 123</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">mill_pocket_s</span>(<span class="ruby-identifier">x</span>,<span class="ruby-identifier">y</span>,<span class="ruby-identifier">diam</span>,<span class="ruby-identifier">depth</span>=<span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">mill_depth</span>,<span class="ruby-identifier">island_diam</span>=<span class="ruby-value">0</span>)
+    <span class="ruby-comment cmt"># - - - - - - - - - - - - - - - - - -</span>
+      <span class="ruby-identifier">print</span> <span class="ruby-value str">&quot;(L445: Circle.mill_pocket x=&quot;</span>,<span class="ruby-identifier">x</span>, <span class="ruby-value str">&quot; y=&quot;</span>,<span class="ruby-identifier">y</span>, <span class="ruby-value str">&quot; diam=&quot;</span>, <span class="ruby-identifier">diam</span>, <span class="ruby-value str">&quot; depth=&quot;</span>, <span class="ruby-identifier">depth</span>, <span class="ruby-value str">&quot; island_diam=&quot;</span>, <span class="ruby-identifier">island_diam</span>,<span class="ruby-value str">&quot;)\n&quot;</span>
+      <span class="ruby-identifier">cradius</span> = (<span class="ruby-identifier">diam</span> <span class="ruby-operator">/</span> <span class="ruby-value">2</span>) <span class="ruby-operator">-</span> <span class="ruby-identifier">bit_radius</span>
+      <span class="ruby-identifier">island_radius</span>= <span class="ruby-identifier">island_diam</span> <span class="ruby-operator">/</span> <span class="ruby-value">2</span>
+
+      <span class="ruby-comment cmt"># If my bit is outside the pocket or if the </span>
+      <span class="ruby-comment cmt"># bit is inside my island then I need to retract</span>
+      <span class="ruby-comment cmt"># the bit prior to moving over to start the milling</span>
+      <span class="ruby-identifier">cdist</span> = <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">calc_distance</span>(<span class="ruby-identifier">x</span>,<span class="ruby-identifier">y</span>)
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">cdist</span> <span class="ruby-operator">&gt;</span> (<span class="ruby-identifier">cradius</span> <span class="ruby-operator">+</span> <span class="ruby-value">0</span><span class="ruby-value">.001</span>)  <span class="ruby-operator">||</span> <span class="ruby-identifier">cdist</span> <span class="ruby-operator">&lt;</span> (<span class="ruby-identifier">island_radius</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">bit_radius</span>)
+        <span class="ruby-identifier">print</span> <span class="ruby-value str">&quot;(AUTO retract in Mill circle pocket)\n&quot;</span>
+        <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">retract</span>()
+      <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+     
+
+      <span class="ruby-comment cmt"># Start a little bit away from the </span>
+      <span class="ruby-comment cmt"># island trace it using a slow speed</span>
+      <span class="ruby-comment cmt"># and small finish cut increments</span>
+      <span class="ruby-identifier">trad</span> = <span class="ruby-identifier">island_radius</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">bit_radius</span> 
+      <span class="ruby-comment cmt">#print &quot;(L454: trad=&quot;, trad</span>
+      <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">trad</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">bit_diam</span>)
+        <span class="ruby-identifier">xrad</span> = <span class="ruby-identifier">island_radius</span>  <span class="ruby-operator">+</span> <span class="ruby-identifier">cut_increment_finish</span> <span class="ruby-operator">*</span> <span class="ruby-value">3</span>
+        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">xrad</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-identifier">cradius</span>
+          <span class="ruby-identifier">xrad</span> = <span class="ruby-identifier">cradius</span>
+        <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+        
+        <span class="ruby-identifier">txrad</span> = <span class="ruby-identifier">xrad</span>
+        <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">set_speed_finish</span>()
+        <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">move</span>(<span class="ruby-identifier">x</span>,<span class="ruby-identifier">y</span><span class="ruby-operator">-</span><span class="ruby-identifier">xrad</span>)
+        <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">plung</span>(<span class="ruby-identifier">depth</span>)
+        <span class="ruby-keyword kw">while</span> (<span class="ruby-identifier">xrad</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-identifier">trad</span>)
+          <span class="ruby-comment cmt">#print &quot;(L464: xrad=&quot;, xrad, &quot; trad=&quot;, trad, &quot; cut_increment_finish=&quot;, cut_increment_finish, &quot;)\n&quot;</span>
+          <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">move</span>(<span class="ruby-identifier">x</span>,<span class="ruby-identifier">y</span><span class="ruby-operator">-</span><span class="ruby-identifier">xrad</span>) <span class="ruby-comment cmt"># prevent auto retract</span>
+          <span class="ruby-identifier">mill_circle</span>(<span class="ruby-identifier">mill</span>, <span class="ruby-identifier">x</span>,<span class="ruby-identifier">y</span>,<span class="ruby-identifier">xrad</span><span class="ruby-operator">*</span><span class="ruby-value">2</span>,<span class="ruby-value">0</span>, <span class="ruby-identifier">depth</span>)  
+          <span class="ruby-identifier">xrad</span> <span class="ruby-operator">-=</span> <span class="ruby-identifier">cut_increment_finish</span>
+        <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+        <span class="ruby-comment cmt"># work from the island out towards the perimiter</span>
+        <span class="ruby-comment cmt"># of the circle</span>
+        <span class="ruby-identifier">trad</span> = <span class="ruby-identifier">txrad</span>
+      <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if     </span>
+      <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">move</span>(<span class="ruby-identifier">x</span>,<span class="ruby-identifier">y</span><span class="ruby-operator">-</span><span class="ruby-identifier">trad</span>) 
+      <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">plung</span>(<span class="ruby-identifier">depth</span>)
+      <span class="ruby-identifier">rad_inc</span> = <span class="ruby-identifier">cut_increment_rough</span>
+      <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">set_speed_rough</span>() 
+      <span class="ruby-identifier">small_set</span> = <span class="ruby-keyword kw">false</span>
+      
+      
+      <span class="ruby-comment cmt"># for small holes we have to</span>
+      <span class="ruby-comment cmt"># override the defaults or the code</span>
+      <span class="ruby-comment cmt"># will cause a simple plung and retract</span>
+      <span class="ruby-keyword kw">if</span> ((<span class="ruby-identifier">trad</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-identifier">cradius</span>) <span class="ruby-keyword kw">and</span> (<span class="ruby-identifier">diam</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">bit_diam</span>))<span class="ruby-operator">:</span>
+        <span class="ruby-identifier">trad</span> = <span class="ruby-identifier">cradius</span> <span class="ruby-operator">/</span> <span class="ruby-value">3</span>
+        <span class="ruby-identifier">small_set</span> = <span class="ruby-keyword kw">true</span>
+        <span class="ruby-identifier">rad_inc</span> = <span class="ruby-identifier">cradius</span> <span class="ruby-operator">/</span> <span class="ruby-value">3</span>
+      <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if  </span>
+      
+      <span class="ruby-comment cmt">#print &quot;(L489: cradius=&quot;, cradius,  &quot; trad =&quot;, trad, &quot;)\n&quot;</span>
+      <span class="ruby-comment cmt"># Mill out the main circular pocket</span>
+      <span class="ruby-keyword kw">while</span>(<span class="ruby-identifier">trad</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-identifier">cradius</span>)
+        <span class="ruby-identifier">tdiam</span> = <span class="ruby-identifier">trad</span> <span class="ruby-operator">*</span> <span class="ruby-value">2</span>
+        <span class="ruby-comment cmt">#print &quot;(L498: trad=&quot;, trad, &quot; cradius=&quot;, cradius,&quot; rad_inc=&quot;, rad_inc,&quot;)\n&quot;</span>
+        <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">move</span>(<span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">trad</span>) <span class="ruby-comment cmt"># prevent auto retract</span>
+        <span class="ruby-identifier">mill_circle</span>(<span class="ruby-identifier">mill</span>,<span class="ruby-identifier">x</span>,<span class="ruby-identifier">y</span>,<span class="ruby-identifier">tdiam</span>, <span class="ruby-identifier">depth</span>)
+        
+        <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">tdiam</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">cradius</span>)
+          <span class="ruby-keyword kw">break</span> <span class="ruby-comment cmt"># have finished this process</span>
+        <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+
+        <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">small_set</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">false</span>) <span class="ruby-keyword kw">and</span> ((<span class="ruby-identifier">trad</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">rad_inc</span>) <span class="ruby-operator">&gt;=</span> <span class="ruby-identifier">cradius</span>)
+            <span class="ruby-identifier">rad_inc</span> = <span class="ruby-identifier">cut_increment_finish</span>
+            <span class="ruby-identifier">small_set</span> = <span class="ruby-value">1</span>
+            <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">set_speed_finish</span>()
+         <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+         <span class="ruby-identifier">trad</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">rad_inc</span>
+             
+         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">trad</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">cradius</span>
+            <span class="ruby-comment cmt">#print &quot;(L504: make finish cut )\n&quot;</span>
+            <span class="ruby-identifier">tdiam</span> = <span class="ruby-identifier">cradius</span> <span class="ruby-operator">*</span> <span class="ruby-value">2</span>
+            <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">set_speed_finish</span>()
+            <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">move</span>(<span class="ruby-identifier">x</span>,<span class="ruby-identifier">y</span><span class="ruby-operator">-</span><span class="ruby-identifier">cradius</span>) <span class="ruby-comment cmt"># prevent auto retract</span>
+            <span class="ruby-identifier">mill_circle</span>(<span class="ruby-identifier">mill</span>,<span class="ruby-identifier">x</span>,<span class="ruby-identifier">y</span>,<span class="ruby-identifier">tdiam</span>,<span class="ruby-identifier">depth</span>)
+            <span class="ruby-keyword kw">break</span>
+         <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+      <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#while</span>
+      <span class="ruby-keyword kw">self</span>
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

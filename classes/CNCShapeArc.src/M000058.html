@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>check_parms (CNCShapeArc)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File cncShapeArc.rb, line 273</span>
+  <span class="ruby-keyword kw">def</span>  <span class="ruby-identifier">check_parms</span>
+  <span class="ruby-comment cmt"># - - - - - - - - - - - - - - - - - -</span>
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-ivar">@needs_check_parms</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">false</span>)
+      <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">false</span> <span class="ruby-comment cmt"># didn't need to run</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-ivar">@needs_check_parms</span> = <span class="ruby-keyword kw">false</span>
+      <span class="ruby-comment cmt"># reset flag so we don't keep</span>
+      <span class="ruby-comment cmt"># adjusting the parms which would</span>
+      <span class="ruby-comment cmt"># keep deducting the radius from</span>
+      <span class="ruby-comment cmt"># them.</span>
+    <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+
+    <span class="ruby-comment cmt"># Swap if needed to make sure min</span>
+    <span class="ruby-comment cmt"># really is smallest on beginning</span>
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-ivar">@beg_min_radius</span> <span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@beg_max_radius</span>)
+      <span class="ruby-identifier">tt</span> = <span class="ruby-ivar">@beg_min_radius</span>
+      <span class="ruby-ivar">@beg_min_radius</span> = <span class="ruby-ivar">@beg_max_radius</span>
+      <span class="ruby-ivar">@beg_max_radius</span> = <span class="ruby-identifier">tt</span>
+    <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+
+    <span class="ruby-comment cmt"># swap if needed to make sure</span>
+    <span class="ruby-comment cmt"># min really is smallest on </span>
+    <span class="ruby-comment cmt"># beginning</span>
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-ivar">@end_min_radius</span> <span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@end_max_radius</span>)
+      <span class="ruby-identifier">tt</span> = <span class="ruby-ivar">@end_min_radius</span>
+      <span class="ruby-ivar">@end_min_radius</span> = <span class="ruby-ivar">@end_max_radius</span>
+      <span class="ruby-ivar">@end_max_radius</span> = <span class="ruby-identifier">tt</span>
+    <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt"># if</span>
+
+    
+    <span class="ruby-comment cmt">#print &quot;(check_parms @beg_min_radius=&quot;, beg_min_radius, &quot; bit_radius=&quot;, bit_radius,&quot;)\n&quot;</span>
+
+    <span class="ruby-comment cmt"># Adjust for Bit radius</span>
+    <span class="ruby-ivar">@beg_min_radius</span>   <span class="ruby-operator">+=</span> <span class="ruby-identifier">bit_radius</span>
+    <span class="ruby-ivar">@end_min_radius</span>   <span class="ruby-operator">+=</span> <span class="ruby-identifier">bit_radius</span>
+    <span class="ruby-ivar">@beg_max_radius</span>  <span class="ruby-operator">-=</span> <span class="ruby-identifier">bit_radius</span>
+    <span class="ruby-ivar">@end_max_radius</span>  <span class="ruby-operator">-=</span> <span class="ruby-identifier">bit_radius</span>
+    <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">self</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

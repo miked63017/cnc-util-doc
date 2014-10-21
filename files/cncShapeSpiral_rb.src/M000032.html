@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>mill_spiral (cncShapeSpiral.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File cncShapeSpiral.rb, line 14</span>
+<span class="ruby-keyword kw">def</span> <span class="ruby-identifier">mill_spiral</span>(
+    <span class="ruby-identifier">mill</span>,
+    <span class="ruby-identifier">cent_x</span>,
+    <span class="ruby-identifier">cent_y</span>,
+    <span class="ruby-identifier">inner_diam</span>,
+    <span class="ruby-identifier">outer_diam</span>,
+    <span class="ruby-identifier">channel_width</span>,
+    <span class="ruby-identifier">wall_thick</span>,
+    <span class="ruby-identifier">depth</span> = <span class="ruby-keyword kw">nil</span>)
+<span class="ruby-comment cmt"># - - - - - - - - - - - - - - - - - - -</span>
+  <span class="ruby-identifier">cut_inc</span>    = <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">cut_increment</span>
+  <span class="ruby-identifier">degree_inc</span> = <span class="ruby-value">1.0</span>
+  <span class="ruby-identifier">min_radius</span>   = <span class="ruby-identifier">inner_diam</span> <span class="ruby-operator">/</span> <span class="ruby-value">2.0</span>
+  <span class="ruby-identifier">max_radius</span>   = <span class="ruby-identifier">outer_diam</span> <span class="ruby-operator">/</span> <span class="ruby-value">2.0</span>
+  <span class="ruby-identifier">delta_radius</span> = <span class="ruby-identifier">max_radius</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">min_radius</span>
+  
+  <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">depth</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">nil</span>)
+    <span class="ruby-identifier">depth</span> = <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">cut_depth</span>
+  <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+
+  <span class="ruby-comment cmt"># have to allow bit radius on</span>
+  <span class="ruby-comment cmt"># both sides of the cutting tool</span>
+  <span class="ruby-comment cmt"># for cutting tool compensation</span>
+
+  <span class="ruby-identifier">adjusted_channel_width</span> = <span class="ruby-identifier">channel_width</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">bit_radius</span>
+  <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">adjusted_channel_width</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">bit_diam</span>
+    <span class="ruby-comment cmt"># our channel can not be less than</span>
+    <span class="ruby-comment cmt"># one bit thick</span>
+    <span class="ruby-identifier">adjusted_channel_width</span> = <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">bit_diam</span>
+  <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+
+  <span class="ruby-identifier">channel_start_max_radius</span> = (<span class="ruby-identifier">min_radius</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">channel_width</span>) <span class="ruby-operator">-</span> <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">bit_radius</span>
+
+  <span class="ruby-identifier">no_passes</span>  = (<span class="ruby-identifier">adjusted_channel_width</span> <span class="ruby-operator">/</span> <span class="ruby-identifier">cut_inc</span>) <span class="ruby-operator">+</span> <span class="ruby-value">1.0</span>
+  <span class="ruby-identifier">usage_per_circle</span> = (<span class="ruby-identifier">channel_width</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">wall_thick</span>) <span class="ruby-operator">*</span> <span class="ruby-value">1.05</span>
+  <span class="ruby-identifier">increase_per_degree</span> = <span class="ruby-identifier">usage_per_circle</span> <span class="ruby-operator">/</span> <span class="ruby-value">360</span>
+
+  <span class="ruby-comment cmt">#print &quot;(mill_spiral no_passes=&quot;, no_passes, &quot; usage_per_circle = &quot;, usage_per_circle, &quot; increase per degree=&quot;, increase_per_degree, &quot; min_radius=&quot;, min_radius,  &quot; max_radius=&quot;, max_radius, &quot; cut_inc = &quot;, cut_inc,&quot; tool adjusted channel_width=&quot;, adjusted_channel_width, &quot;)\n&quot;</span>
+
+  <span class="ruby-identifier">pass_beg_radius</span> = <span class="ruby-identifier">min_radius</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">bit_radius</span>
+  <span class="ruby-identifier">pass_max_radius</span> = (<span class="ruby-identifier">max_radius</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">channel_width</span>) <span class="ruby-operator">+</span> <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">bit_radius</span>
+
+
+
+  <span class="ruby-identifier">passcnt</span> = <span class="ruby-value">0</span>
+  <span class="ruby-keyword kw">while</span> (<span class="ruby-keyword kw">true</span>)
+    <span class="ruby-comment cmt"># one pass here for each width</span>
+    <span class="ruby-comment cmt"># of the bit we need to make</span>
+    <span class="ruby-identifier">curr_radius</span> = <span class="ruby-identifier">pass_beg_radius</span>
+    <span class="ruby-identifier">deg</span> = <span class="ruby-value">0</span><span class="ruby-value">.0</span>
+
+    <span class="ruby-comment cmt"># Move the head to start of the spiral</span>
+    <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">retract</span>()
+    <span class="ruby-identifier">first_point</span> = <span class="ruby-identifier">calc_point_from_angle</span>(<span class="ruby-identifier">cent_x</span>, <span class="ruby-identifier">cent_y</span>, <span class="ruby-identifier">deg</span>, <span class="ruby-identifier">curr_radius</span>)
+    <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">move</span>(<span class="ruby-identifier">first_point</span>.<span class="ruby-identifier">x</span>, <span class="ruby-identifier">first_point</span>.<span class="ruby-identifier">y</span>)
+    <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">plung</span>(<span class="ruby-identifier">depth</span>)
+
+    <span class="ruby-keyword kw">while</span> <span class="ruby-identifier">curr_radius</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-identifier">pass_max_radius</span>
+       <span class="ruby-comment cmt"># mill a single pass of the </span>
+       <span class="ruby-comment cmt"># spiral</span>
+       <span class="ruby-identifier">aPoint</span> = <span class="ruby-identifier">calc_point_from_angle</span>(<span class="ruby-identifier">cent_x</span>, <span class="ruby-identifier">cent_y</span>, <span class="ruby-identifier">deg</span>, <span class="ruby-identifier">curr_radius</span>)
+       <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">move</span>(<span class="ruby-identifier">aPoint</span>.<span class="ruby-identifier">x</span>, <span class="ruby-identifier">aPoint</span>.<span class="ruby-identifier">y</span>)
+       <span class="ruby-identifier">curr_radius</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">increase_per_degree</span>
+       <span class="ruby-identifier">deg</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1.0</span>
+       <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">deg</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-value">360</span>)
+         <span class="ruby-identifier">deg</span> = <span class="ruby-value">0</span>
+       <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+
+    <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#while</span>
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">pass_beg_radius</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-identifier">channel_start_max_radius</span>)
+      <span class="ruby-comment cmt"># our last pass was our final</span>
+      <span class="ruby-comment cmt"># for the specified channel width</span>
+      <span class="ruby-keyword kw">break</span>
+    <span class="ruby-keyword kw">elsif</span> (<span class="ruby-identifier">pass_beg_radius</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">cut_inc</span>) <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">channel_start_max_radius</span>
+      <span class="ruby-comment cmt"># one more cut increment will put us over the</span>
+      <span class="ruby-comment cmt"># the max channel width so we adjust the cut_inc</span>
+      <span class="ruby-comment cmt"># down so the last pass takes off just enough</span>
+      <span class="ruby-identifier">cut_inc</span> = <span class="ruby-identifier">channel_start_max_radius</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">pass_beg_radius</span>
+    <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+    <span class="ruby-identifier">pass_beg_radius</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">cut_inc</span>
+    <span class="ruby-identifier">pass_max_radius</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">cut_inc</span>
+  <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt"># for</span>
+<span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

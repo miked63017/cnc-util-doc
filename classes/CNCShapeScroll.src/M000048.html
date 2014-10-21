@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>do_mill (CNCShapeScroll)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File cncShapeScroll.rb, line 47</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">do_mill</span>
+  <span class="ruby-comment cmt"># - - - - - - - - - - - - - - - - - - </span>
+    <span class="ruby-identifier">max_diam</span>  = <span class="ruby-value">4.95</span>
+    <span class="ruby-identifier">max_radius</span> = <span class="ruby-identifier">max_diam</span> <span class="ruby-operator">/</span> <span class="ruby-value">2</span>
+    <span class="ruby-identifier">shaft_support_diam</span> = <span class="ruby-value">0</span><span class="ruby-value">.55</span>
+    <span class="ruby-identifier">beg_diam</span>  = <span class="ruby-identifier">shaft_support_diam</span>
+    <span class="ruby-identifier">shaft_diameter</span> = <span class="ruby-value">1.0</span> <span class="ruby-operator">/</span> <span class="ruby-value">4.0</span>
+    <span class="ruby-identifier">beg_corr_width</span> = <span class="ruby-value">0</span><span class="ruby-value">.2</span>
+    <span class="ruby-identifier">growth_factor</span> = <span class="ruby-value">0</span><span class="ruby-value">.09</span> <span class="ruby-comment cmt"># 0.12 #0.15 #0.25</span>
+    <span class="ruby-identifier">degree_increment</span> = <span class="ruby-value">30</span>
+    <span class="ruby-identifier">wall_thick</span>  = <span class="ruby-value">0</span><span class="ruby-value">.015</span>
+    <span class="ruby-identifier">sweep</span>       = <span class="ruby-value">45.0</span>
+    <span class="ruby-identifier">curr_radius</span> = <span class="ruby-identifier">beg_diam</span> <span class="ruby-operator">/</span> <span class="ruby-value">2</span>
+    <span class="ruby-identifier">curr_degree</span> = <span class="ruby-value">0</span><span class="ruby-value">.0</span>
+    <span class="ruby-identifier">curr_corr_width</span> = <span class="ruby-identifier">beg_corr_width</span>
+    <span class="ruby-identifier">degree_inc</span>  = <span class="ruby-value">4.0</span>
+    <span class="ruby-identifier">inner_adj_factor</span> = <span class="ruby-value">1.2</span> <span class="ruby-comment cmt">#0.8 #0.7 #0.9 #1.2 #2.7 #2.1</span>
+    <span class="ruby-identifier">material_thickness</span> = <span class="ruby-value">1.0</span>
+    <span class="ruby-identifier">outer_radius_beg</span> = <span class="ruby-identifier">curr_radius</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">curr_corr_width</span>
+
+    <span class="ruby-identifier">aCircle</span> = <span class="ruby-constant">CNCShapeCircle</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">mill</span>,<span class="ruby-identifier">x</span>,<span class="ruby-identifier">y</span>)
+    <span class="ruby-identifier">aCircle</span>.<span class="ruby-identifier">mill_pocket</span>(<span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span>, <span class="ruby-value">1.0</span>, <span class="ruby-identifier">depth</span>,<span class="ruby-identifier">shaft_support_diam</span>)
+    <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">retract</span>()  <span class="ruby-comment cmt"># mill whole for entrance </span>
+     <span class="ruby-comment cmt"># of gases from prior chamber but leave</span>
+     <span class="ruby-comment cmt"># shaft support area</span>
+
+    <span class="ruby-identifier">aCircle</span>.<span class="ruby-identifier">mill_pocket</span>(<span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span>, <span class="ruby-identifier">shaft_diameter</span>, <span class="ruby-value">0</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">material_thickness</span>.<span class="ruby-identifier">abs</span>)
+    <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">retract</span>()   <span class="ruby-comment cmt"># mill hole for the shaft</span>
+
+
+
+    <span class="ruby-keyword kw">while</span> <span class="ruby-keyword kw">true</span>
+      <span class="ruby-identifier">end_degree</span>  = <span class="ruby-identifier">curr_degree</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">sweep</span>
+      <span class="ruby-identifier">end_corr_width</span> = <span class="ruby-identifier">curr_corr_width</span> <span class="ruby-operator">+</span>  (<span class="ruby-identifier">curr_corr_width</span> <span class="ruby-operator">*</span> <span class="ruby-identifier">growth_factor</span>)
+
+      <span class="ruby-identifier">outer_radius_end</span> = <span class="ruby-identifier">curr_radius</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">end_corr_width</span>
+
+      <span class="ruby-identifier">inner_rad_end</span> = <span class="ruby-identifier">curr_radius</span> <span class="ruby-operator">+</span> (<span class="ruby-identifier">curr_radius</span> <span class="ruby-operator">*</span> <span class="ruby-identifier">growth_factor</span> <span class="ruby-operator">*</span> <span class="ruby-identifier">inner_adj_factor</span>)
+
+      <span class="ruby-identifier">inner_adj_factor</span> = <span class="ruby-identifier">inner_adj_factor</span> <span class="ruby-operator">*</span> <span class="ruby-value">0</span><span class="ruby-value">.97</span>
+
+      <span class="ruby-identifier">arc_segment_pocket_adv</span>(<span class="ruby-identifier">mill</span>, <span class="ruby-identifier">x</span>,<span class="ruby-identifier">y</span>,
+            <span class="ruby-identifier">curr_radius</span>, 
+            <span class="ruby-identifier">outer_radius_beg</span>,
+            <span class="ruby-identifier">curr_degree</span>,
+            <span class="ruby-identifier">inner_rad_end</span>, 
+            <span class="ruby-identifier">outer_radius_end</span>, 
+            <span class="ruby-identifier">end_degree</span>,   
+            <span class="ruby-identifier">depth</span>,
+            <span class="ruby-identifier">degree_inc</span>)
+
+      <span class="ruby-identifier">curr_degree</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">sweep</span>
+      <span class="ruby-identifier">curr_corr_width</span> = <span class="ruby-identifier">end_corr_width</span>
+
+      <span class="ruby-identifier">curr_radius</span> = <span class="ruby-identifier">inner_rad_end</span>
+
+      <span class="ruby-identifier">outer_radius_beg</span> = <span class="ruby-identifier">outer_radius_end</span>
+
+      <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">outer_radius_end</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">max_radius</span>)
+        <span class="ruby-keyword kw">break</span>
+      <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+
+
+
+
+    <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#while</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

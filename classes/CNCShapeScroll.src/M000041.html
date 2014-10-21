@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>do_mill_x (CNCShapeScroll)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File cncShapeScroll.rb, line 123</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">do_mill_x</span>
+  <span class="ruby-comment cmt"># - - - - - - - - - - - - - - - - - - </span>
+    <span class="ruby-identifier">beg_angle</span> = <span class="ruby-value">0</span>
+    <span class="ruby-identifier">end_angle</span> = <span class="ruby-value">360</span>
+    <span class="ruby-identifier">degree_inc</span> = <span class="ruby-value">5</span>
+    <span class="ruby-identifier">material_thickness</span> = <span class="ruby-value">0</span><span class="ruby-value">.8</span>
+    <span class="ruby-identifier">wall_thick</span>   = <span class="ruby-value">0</span><span class="ruby-value">.25</span>
+    <span class="ruby-comment cmt">#@depth = 0 - (material_thickness - wall_thick)</span>
+    <span class="ruby-identifier">bit_diam</span>     = <span class="ruby-value">0</span><span class="ruby-value">.12</span>
+    <span class="ruby-identifier">shaft_support_diam</span> = <span class="ruby-value">0</span><span class="ruby-value">.5</span>
+    <span class="ruby-identifier">min_spiral_radius</span> = <span class="ruby-identifier">shaft_support_diam</span> <span class="ruby-regexp re">/2
+    shaft_diameter = 0.25 * 0.93
+    beg_corr_width = 0.70
+    min_corridor = 0.15
+    min_corr_diam = shaft_support_diam + 0.1
+    corridor_adjust_per_revolution = 0.2
+
+    aCircle = CNCShapeCircle.new(mill,x,y)
+    aCircle.mill_pocket(x, y, 1.0, depth,shaft_support_diam)
+    mill.retract()  # mill whole for entrance 
+     # of gases from prior chamber but leave
+     # shaft support area
+
+    aCircle.mill_pocket(x, y, shaft_diameter, 0 - material_thickness.abs)
+    mill.retract()   # mill hole for the shaft
+
+
+
+    # Mill hex reset into shaft support for
+    # hex nut.
+
+
+    curr_radius = max_radius - wall_thick
+
+    seg_beg_corr_width = beg_corr_width
+    seg_end_corr_width = seg_beg_corr_width  * corridor_adjust_per_revolution
+    if seg_end_corr_width &lt;  min_corridor
+      seg_end_corr_width = min_corridor
+    end
+
+    seg_beg_max_radius = max_radius + wall_thick
+    seg_beg_min_radius = seg_beg_max_radius - seg_beg_corr_width
+    seg_end_max_radius  = seg_beg_max_radius - (wall_thick + seg_beg_corr_width)
+    seg_end_min_radius   = seg_end_max_radius - (seg_end_corr_width)
+
+
+    # Change to  r1,2,r3,r4
+    while true    
+        #end_angle = beg_angle + 30
+        #end_angle = beg_angle + 30
+
+        if (seg_end_max_radius &lt; min_spiral_radius)
+          seg_end_max_radius = min_spiral_radius
+        end #if
+
+        if (seg_end_min_radius &lt; min_spiral_radius)
+          seg_end_min_radius = min_spiral_radius
+        end #if
+
+        arc_segment_pocket_adv(mill, x,y,
+            seg_beg_min_radius, 
+            seg_beg_max_radius,
+            beg_angle,
+            seg_end_min_radius, 
+            seg_end_max_radius,
+            end_angle,   
+            depth,
+            degree_inc)
+
+        if seg_end_min_radius &lt;=  min_spiral_radius
+            # we have milled everything.
+            break
+        end
+
+      beg_angle = end_angle
+
+      #if (beg_angle &gt; (360 - 30))
+      #  beg_angle = 0
+      #end #if
+      
+      seg_beg_corr_width = seg_end_corr_width
+      seg_end_corr_width = seg_end_corr_width * corridor_adjust_per_revolution
+
+      seg_beg_min_radius =  seg_end_min_radius
+      seg_beg_max_radius = seg_end_max_radius
+
+      seg_end_max_radius = seg_beg_max_radius - ((seg_beg_corr_width) + wall_thick) 
+      seg_end_min_radius = seg_end_max_radius - (seg_end_corr_width)
+
+    end # while
+
+
+
+    mill.retract()
+    mill.mill_circle(cx,cy, max_diam+0.15, depth*3, true)
+    #aCircle.mill_pocket(cx, cy, max_diam+ 0.15,  depth, max_diam + 0.05)  # mill circle out around the scroll area.
+    mill.retract
+  end #meth
+end # class
+
+
+
+################
+### Main Scroll test driver
+################
+
+  mill = CNCMill.new()
+  circ_x            = 2
+  circ_y             = 2
+  aDepth         = -0.8
+
+  aScroll = CNCShapeScroll.new(
+             mill, 
+             circ_x, 
+             circ_y, 
+             aDepth)
+
+  aScroll.do_mill
+
+
+
+</span></pre>
+</body>
+</html>

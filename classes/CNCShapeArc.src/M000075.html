@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>do_mill_s (CNCShapeArc)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File cncShapeArc.rb, line 405</span>
+  <span class="ruby-keyword kw">def</span>  <span class="ruby-identifier">do_mill_s</span>
+  <span class="ruby-comment cmt"># - - - - - - - - - - - - - - - - - - - -</span>
+    <span class="ruby-comment cmt">#print &quot;(mill arc segment pocket beg_angle=&quot;, beg_angle,  &quot;  end_angle=&quot;,  end_angle,   &quot; depth = &quot;, depth, &quot; @depth=&quot;, @depth, &quot;)\n&quot;</span>
+
+    <span class="ruby-identifier">bit_radius_half</span> = <span class="ruby-identifier">bit_radius</span> <span class="ruby-operator">/</span> <span class="ruby-value">2</span>
+    <span class="ruby-identifier">beg_mid_radius</span> = (<span class="ruby-identifier">beg_min_radius</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">beg_max_radius</span>) <span class="ruby-operator">/</span> <span class="ruby-value">2.0</span>
+    <span class="ruby-identifier">end_mid_radius</span> = (<span class="ruby-identifier">end_min_radius</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">end_max_radius</span>) <span class="ruby-operator">/</span> <span class="ruby-value">2.0</span>
+    <span class="ruby-identifier">cut_inc</span> = <span class="ruby-identifier">cut_increment_rough</span>
+
+    <span class="ruby-comment cmt">#mill.retract()</span>
+    <span class="ruby-identifier">cibr</span> = <span class="ruby-identifier">beg_mid_radius</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">bit_radius_half</span>
+    <span class="ruby-identifier">cier</span> = <span class="ruby-identifier">end_mid_radius</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">bit_radius_half</span>
+    <span class="ruby-identifier">cmbr</span> = <span class="ruby-identifier">beg_mid_radius</span>   <span class="ruby-operator">+</span> <span class="ruby-identifier">bit_radius_half</span>
+    <span class="ruby-identifier">cmer</span> = <span class="ruby-identifier">end_mid_radius</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">bit_radius_half</span>
+    
+    <span class="ruby-keyword kw">while</span>(<span class="ruby-keyword kw">true</span>)
+       <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">cibr</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">beg_min_radius</span>)
+         <span class="ruby-identifier">cibr</span> = <span class="ruby-identifier">beg_min_radius</span>
+       <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+
+       <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">cier</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">end_min_radius</span>)
+         <span class="ruby-identifier">cier</span> = <span class="ruby-identifier">end_min_radius</span>
+       <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt"># if</span>
+
+       <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">cmbr</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">beg_max_radius</span>)
+         <span class="ruby-identifier">cmbr</span> = <span class="ruby-identifier">beg_max_radius</span>
+       <span class="ruby-keyword kw">end</span>
+
+       <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">cmer</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">end_max_radius</span>)
+         <span class="ruby-identifier">cmer</span> =  <span class="ruby-identifier">end_max_radius</span>
+       <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+
+       <span class="ruby-comment cmt">#cp = calc_point_from_angle(cx,cy, beg_angle, cibr)</span>
+       <span class="ruby-comment cmt">#mill.retract()</span>
+       <span class="ruby-comment cmt">#mill.move(cp.x, cp.y)</span>
+       <span class="ruby-comment cmt">#mill.plung(depth)</span>
+   
+
+       <span class="ruby-identifier">changing_arc</span>(<span class="ruby-identifier">mill</span>, <span class="ruby-identifier">x</span>,<span class="ruby-identifier">y</span>,<span class="ruby-identifier">cibr</span>, <span class="ruby-identifier">beg_angle</span>, <span class="ruby-identifier">cier</span>, <span class="ruby-identifier">end_angle</span>, <span class="ruby-identifier">depth</span>, <span class="ruby-identifier">degree_inc</span>)  <span class="ruby-comment cmt"># mill increasing</span>
+       <span class="ruby-comment cmt">#mill.retract()</span>
+
+
+       <span class="ruby-identifier">changing_arc</span>(<span class="ruby-identifier">mill</span>, <span class="ruby-identifier">x</span>,<span class="ruby-identifier">y</span>,<span class="ruby-identifier">cmer</span>, <span class="ruby-identifier">end_angle</span>, <span class="ruby-identifier">cmbr</span>, <span class="ruby-identifier">beg_angle</span>, <span class="ruby-identifier">depth</span>, <span class="ruby-identifier">degree_inc</span>)
+       <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">retract</span>()  <span class="ruby-comment cmt"># mill decreasing</span>
+
+
+
+       <span class="ruby-keyword kw">if</span> ((<span class="ruby-identifier">cibr</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-identifier">beg_min_radius</span>) <span class="ruby-operator">&amp;&amp;</span>
+         (<span class="ruby-identifier">cier</span> <span class="ruby-operator">&lt;=</span>  <span class="ruby-identifier">end_min_radius</span>) <span class="ruby-operator">&amp;&amp;</span>
+         (<span class="ruby-identifier">cmbr</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-identifier">beg_max_radius</span>) <span class="ruby-operator">&amp;&amp;</span>
+         (<span class="ruby-identifier">cmer</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-identifier">end_max_radius</span>))
+           <span class="ruby-keyword kw">break</span>
+       <span class="ruby-keyword kw">end</span> 
+
+       <span class="ruby-identifier">cibr</span> <span class="ruby-operator">-=</span> <span class="ruby-identifier">cut_inc</span>
+       <span class="ruby-identifier">cier</span> <span class="ruby-operator">-=</span> <span class="ruby-identifier">cut_inc</span>
+       <span class="ruby-identifier">cmbr</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">cut_inc</span>
+       <span class="ruby-identifier">cmer</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">cut_inc</span>
+     <span class="ruby-keyword kw">end</span>  <span class="ruby-comment cmt">#while</span>
+
+   <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

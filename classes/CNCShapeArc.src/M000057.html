@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>new (CNCShapeArc)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File cncShapeArc.rb, line 239</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">mill</span>,  <span class="ruby-identifier">x</span>,  <span class="ruby-identifier">y</span>,  
+        <span class="ruby-identifier">beg_min_radius</span>,   <span class="ruby-identifier">beg_max_radius</span>, <span class="ruby-identifier">beg_angle</span>=<span class="ruby-value">0</span>,
+        <span class="ruby-identifier">end_min_radius</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-identifier">end_max_radius</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-identifier">end_angle</span>=<span class="ruby-value">360</span>,
+        <span class="ruby-identifier">depth</span>=<span class="ruby-keyword kw">nil</span>,  <span class="ruby-identifier">degree_inc</span>=<span class="ruby-keyword kw">nil</span>
+        )
+    <span class="ruby-comment cmt"># - - - - - - - - - - - - - - - - - -</span>
+      <span class="ruby-identifier">base_init</span>(<span class="ruby-identifier">mill</span>,<span class="ruby-identifier">x</span>,<span class="ruby-identifier">y</span>,<span class="ruby-keyword kw">nil</span>,<span class="ruby-identifier">depth</span>)
+      <span class="ruby-ivar">@beg_min_radius</span>  = <span class="ruby-identifier">beg_min_radius</span>
+      <span class="ruby-ivar">@beg_max_radius</span>  = <span class="ruby-identifier">beg_max_radius</span>
+      <span class="ruby-ivar">@beg_angle</span>       = <span class="ruby-identifier">beg_angle</span>
+      <span class="ruby-ivar">@end_min_radius</span>  = <span class="ruby-identifier">end_min_radius</span>
+      <span class="ruby-ivar">@end_max_radius</span>  = <span class="ruby-identifier">end_max_radius</span>
+      <span class="ruby-ivar">@end_angle</span>       = <span class="ruby-identifier">end_angle</span>   
+      <span class="ruby-ivar">@degree_inc</span>      = <span class="ruby-identifier">degree_inc</span>
+      <span class="ruby-ivar">@depth</span>           = <span class="ruby-identifier">depth</span>
+      <span class="ruby-ivar">@needs_check_parms</span> = <span class="ruby-keyword kw">true</span>
+
+      <span class="ruby-comment cmt">#print &quot;(CNCShapeArc init depth=&quot;, depth,  &quot; @depth=&quot;, @depth, &quot;)\n&quot;</span>
+      <span class="ruby-comment cmt">#check_parms</span>
+      <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">self</span>
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

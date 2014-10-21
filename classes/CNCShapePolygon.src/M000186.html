@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>circ_array (CNCShapePolygon)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File cncShapePolygon.rb, line 187</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">circ_array</span>(<span class="ruby-identifier">circ_x</span>, <span class="ruby-identifier">circ_y</span>, <span class="ruby-identifier">radius</span>, <span class="ruby-identifier">beg_degree</span>=<span class="ruby-value">0</span><span class="ruby-value">.0</span>, <span class="ruby-identifier">end_degree</span> = <span class="ruby-value">360.0</span>, <span class="ruby-identifier">num_elem</span>=<span class="ruby-value">6</span>)
+  <span class="ruby-comment cmt"># - - - - - - - - - - - - - - - - - - - -</span>
+     <span class="ruby-identifier">sweep_angle</span>  = <span class="ruby-identifier">end_degree</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">beg_degree</span>
+     <span class="ruby-identifier">degree_inc</span>   = <span class="ruby-identifier">sweep_angle</span>  <span class="ruby-operator">/</span> <span class="ruby-identifier">num_elem</span>
+     <span class="ruby-identifier">curr_angle</span>   = <span class="ruby-identifier">beg_degree</span> 
+     <span class="ruby-comment cmt"># illustrate an easy way to get a</span>
+     <span class="ruby-comment cmt"># repeating array of arc pockets</span>
+     <span class="ruby-keyword kw">for</span> <span class="ruby-identifier">cc</span> <span class="ruby-keyword kw">in</span> (<span class="ruby-value">1</span><span class="ruby-operator">..</span><span class="ruby-identifier">num_elem</span>)
+        <span class="ruby-identifier">cp</span> = <span class="ruby-identifier">calc_point_from_angle</span>(
+          <span class="ruby-identifier">circ_x</span>, <span class="ruby-identifier">circ_y</span>, <span class="ruby-identifier">curr_angle</span>, <span class="ruby-identifier">radius</span>)
+        <span class="ruby-ivar">@x</span> = <span class="ruby-identifier">cp</span>.<span class="ruby-identifier">x</span>
+        <span class="ruby-ivar">@y</span> = <span class="ruby-identifier">cp</span>.<span class="ruby-identifier">y</span>
+        <span class="ruby-identifier">do_mill</span>()
+        <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">retract</span>()
+        <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">curr_angle</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-identifier">end_degree</span>)
+           <span class="ruby-keyword kw">break</span>
+        <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+        <span class="ruby-identifier">curr_angle</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">degree_inc</span>
+        <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">curr_angle</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">360</span>)
+          <span class="ruby-identifier">curr_angle</span> = <span class="ruby-identifier">curr_angle</span> <span class="ruby-operator">%</span> <span class="ruby-value">360</span>
+        <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+     <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#for</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

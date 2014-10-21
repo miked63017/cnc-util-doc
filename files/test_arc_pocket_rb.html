@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: test_arc_pocket.rb</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>test_arc_pocket.rb</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>test_arc_pocket.rb
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Tue Jan 17 23:01:38 Mountain Standard Time 2006</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+    <div id="requires-list">
+      <h3 class="section-bar">Required files</h3>
+
+      <div class="name-list">
+      <a href="cncMill_rb.html">cncMill</a>&nbsp;&nbsp;
+      <a href="cncShapeArc_rb.html">cncShapeArc</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000036">arc_test_0</a>&nbsp;&nbsp;
+      <a href="#M000039">arc_test_2</a>&nbsp;&nbsp;
+      <a href="#M000037">arc_test_easy_array</a>&nbsp;&nbsp;
+      <a href="#M000038">arc_test_manual_array</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000036" class="method-detail">
+        <a name="M000036"></a>
+
+        <div class="method-heading">
+          <a href="test_arc_pocket_rb.src/M000036.html" target="Code" class="method-signature"
+            onclick="popupCode('test_arc_pocket_rb.src/M000036.html');return false;">
+          <span class="method-name">arc_test_0</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <pre>
+ See (C) notice in http://xdobs.com/cnc/CNCUtil/license.txt for license and copyright.
+</pre>
+<p>
+demonstrate simple use of a arc pocket
+</p>
+<ul>
+<li>- - - - - - - - - - - - - - - - - - -
+
+</li>
+</ul>
+        </div>
+      </div>
+
+      <div id="method-M000039" class="method-detail">
+        <a name="M000039"></a>
+
+        <div class="method-heading">
+          <a href="test_arc_pocket_rb.src/M000039.html" target="Code" class="method-signature"
+            onclick="popupCode('test_arc_pocket_rb.src/M000039.html');return false;">
+          <span class="method-name">arc_test_2</span><span class="method-args">(mill = nil)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Demonstrate advanced use which allows one end of the pocket to be wider
+that the other
+</p>
+<ul>
+<li>- - - - - - - - - - - - - - - - - - -
+
+</li>
+</ul>
+        </div>
+      </div>
+
+      <div id="method-M000037" class="method-detail">
+        <a name="M000037"></a>
+
+        <div class="method-heading">
+          <a href="test_arc_pocket_rb.src/M000037.html" target="Code" class="method-signature"
+            onclick="popupCode('test_arc_pocket_rb.src/M000037.html');return false;">
+          <span class="method-name">arc_test_easy_array</span><span class="method-args">(mill)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+An easy circular array of Arch segments. is made by defining the first
+semgment where it needs to be and then calling circ_array rather than
+do_mill. circ_array has an option of specifiying the number of elements and
+/ or the number of degrees between elements. The array always starts with
+the first element and works it&#8217;s way clockwise until it has supplied
+the number of elements requested.
+</p>
+<ul>
+<li>- - - - - - - - - - - - - - - - - - -
+
+</li>
+</ul>
+        </div>
+      </div>
+
+      <div id="method-M000038" class="method-detail">
+        <a name="M000038"></a>
+
+        <div class="method-heading">
+          <a href="test_arc_pocket_rb.src/M000038.html" target="Code" class="method-signature"
+            onclick="popupCode('test_arc_pocket_rb.src/M000038.html');return false;">
+          <span class="method-name">arc_test_manual_array</span><span class="method-args">(mill = nil)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+demonstrate simple use which forces the pocket to be the same width all the
+way across the arc. This example also shows how to make a circular array of
+arc segments.
+</p>
+<ul>
+<li>- - - - - - - - - - - - - - - - - - -
+
+</li>
+</ul>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

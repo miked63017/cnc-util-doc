@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: CNCShapeRect</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">CNCShapeRect</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../files/cncShapeRect_rb.html">
+                cncShapeRect.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                Object
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+*****************************************
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000173">centered</a>&nbsp;&nbsp;
+      <a href="#M000177">do_mill</a>&nbsp;&nbsp;
+      <a href="#M000175">include_finish_cut</a>&nbsp;&nbsp;
+      <a href="#M000178">mill_cavity</a>&nbsp;&nbsp;
+      <a href="#M000179">mill_cavity_s</a>&nbsp;&nbsp;
+      <a href="#M000172">new</a>&nbsp;&nbsp;
+      <a href="#M000174">reset</a>&nbsp;&nbsp;
+      <a href="#M000176">skip_finish_cut</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+    <div id="includes">
+      <h3 class="section-bar">Included Modules</h3>
+
+      <div id="includes-list">
+        <span class="include-name"><a href="CNCShapeBase.html">CNCShapeBase</a></span>
+      </div>
+    </div>
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000172" class="method-detail">
+        <a name="M000172"></a>
+
+        <div class="method-heading">
+          <a href="CNCShapeRect.src/M000172.html" target="Code" class="method-signature"
+            onclick="popupCode('CNCShapeRect.src/M000172.html');return false;">
+          <span class="method-name">new</span><span class="method-args">(mill, x=0, y=0, width=0.5, len=0.5, depth=-0.5)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+initialize a rectrangle for milling requires a center point, width and
+length.
+</p>
+<ul>
+<li>- - - - - - - - - - - - - - -
+
+</li>
+</ul>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000173" class="method-detail">
+        <a name="M000173"></a>
+
+        <div class="method-heading">
+          <a href="CNCShapeRect.src/M000173.html" target="Code" class="method-signature"
+            onclick="popupCode('CNCShapeRect.src/M000173.html');return false;">
+          <span class="method-name">centered</span><span class="method-args">(scx=@x,scy=@y,width=@width,length=@len, depth=@depth)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Force the square to be centered over the X,Y coordinate rather than using
+X,Y as first corner.
+</p>
+<ul>
+<li>- - - - - - - - - - - - - - -
+
+</li>
+</ul>
+        </div>
+      </div>
+
+      <div id="method-M000177" class="method-detail">
+        <a name="M000177"></a>
+
+        <div class="method-heading">
+          <a href="CNCShapeRect.src/M000177.html" target="Code" class="method-signature"
+            onclick="popupCode('CNCShapeRect.src/M000177.html');return false;">
+          <span class="method-name">do_mill</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <pre>
+ Perform the actual milling to based on current parameters
+</pre>
+<ul>
+<li>- - - - - - - - - - - - - - - - -
+
+</li>
+</ul>
+        </div>
+      </div>
+
+      <div id="method-M000175" class="method-detail">
+        <a name="M000175"></a>
+
+        <div class="method-heading">
+          <a href="CNCShapeRect.src/M000175.html" target="Code" class="method-signature"
+            onclick="popupCode('CNCShapeRect.src/M000175.html');return false;">
+          <span class="method-name">include_finish_cut</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <ul>
+<li>- - - - - - - - - - - - - - - - -
+
+</li>
+</ul>
+        </div>
+      </div>
+
+      <div id="method-M000178" class="method-detail">
+        <a name="M000178"></a>
+
+        <div class="method-heading">
+          <a href="CNCShapeRect.src/M000178.html" target="Code" class="method-signature"
+            onclick="popupCode('CNCShapeRect.src/M000178.html');return false;">
+          <span class="method-name">mill_cavity</span><span class="method-args">(lx,ly, mx, my, depth)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <ul>
+<li>- - - - - - - - - - - - - - -
+
+</li>
+</ul>
+        </div>
+      </div>
+
+      <div id="method-M000179" class="method-detail">
+        <a name="M000179"></a>
+
+        <div class="method-heading">
+          <a href="CNCShapeRect.src/M000179.html" target="Code" class="method-signature"
+            onclick="popupCode('CNCShapeRect.src/M000179.html');return false;">
+          <span class="method-name">mill_cavity_s</span><span class="method-args">(lx,ly, mx, my, dd2)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <ul>
+<li>- - - - - - - - - - - - - - -
+
+</li>
+</ul>
+        </div>
+      </div>
+
+      <div id="method-M000174" class="method-detail">
+        <a name="M000174"></a>
+
+        <div class="method-heading">
+          <a href="CNCShapeRect.src/M000174.html" target="Code" class="method-signature"
+            onclick="popupCode('CNCShapeRect.src/M000174.html');return false;">
+          <span class="method-name">reset</span><span class="method-args">(lx, ly, mx, my, depth=@depth)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Force the square to be centered over the X,Y coordinate rather than using
+X,Y as first corner.
+</p>
+<ul>
+<li>- - - - - - - - - - - - - - -
+
+</li>
+</ul>
+        </div>
+      </div>
+
+      <div id="method-M000176" class="method-detail">
+        <a name="M000176"></a>
+
+        <div class="method-heading">
+          <a href="CNCShapeRect.src/M000176.html" target="Code" class="method-signature"
+            onclick="popupCode('CNCShapeRect.src/M000176.html');return false;">
+          <span class="method-name">skip_finish_cut</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <ul>
+<li>- - - - - - - - - - - - - - - - -
+
+</li>
+</ul>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

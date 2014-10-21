@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>arc_segment_pocket (cncShapeArc.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File cncShapeArc.rb, line 167</span>
+<span class="ruby-keyword kw">def</span>  <span class="ruby-identifier">arc_segment_pocket</span>(
+   <span class="ruby-identifier">mill</span>, 
+   <span class="ruby-identifier">circ_x</span>,
+   <span class="ruby-identifier">circ_y</span>,
+   <span class="ruby-identifier">min_radius</span>,
+   <span class="ruby-identifier">max_radius</span>,  
+   <span class="ruby-identifier">beg_angle</span>,
+   <span class="ruby-identifier">end_angle</span>,  
+   <span class="ruby-identifier">depth</span> = <span class="ruby-keyword kw">nil</span>,
+   <span class="ruby-identifier">degree_inc</span> = <span class="ruby-keyword kw">nil</span>)
+<span class="ruby-comment cmt"># - - - - - - - - - - - - - - - - - - - -</span>
+    <span class="ruby-identifier">print</span> <span class="ruby-value str">&quot;(arc_segment_pocket circ_x=&quot;</span>, <span class="ruby-identifier">circ_x</span>,<span class="ruby-value str">&quot; circ_y=&quot;</span>, <span class="ruby-identifier">circ_y</span>, <span class="ruby-value str">&quot; min_radius=&quot;</span>, <span class="ruby-identifier">min_radius</span>, <span class="ruby-value str">&quot; max_radius=&quot;</span>, <span class="ruby-identifier">max_radius</span>, <span class="ruby-value str">&quot; beg_angle=&quot;</span>, <span class="ruby-identifier">beg_angle</span>, <span class="ruby-value str">&quot; end_angle=&quot;</span>, <span class="ruby-identifier">end_angle</span>, <span class="ruby-value str">&quot; depth=&quot;</span>, <span class="ruby-identifier">depth</span>, <span class="ruby-value str">&quot;degree_inc=&quot;</span>, <span class="ruby-identifier">degree_inc</span>,  <span class="ruby-value str">&quot;)\n&quot;</span>
+
+    <span class="ruby-identifier">aArc</span> = <span class="ruby-constant">CNCShapeArc</span>.<span class="ruby-identifier">new</span>(
+                          <span class="ruby-identifier">mill</span>, <span class="ruby-identifier">circ_x</span>,
+                          <span class="ruby-identifier">circ_y</span>,
+                          <span class="ruby-identifier">min_radius</span>, 
+                          <span class="ruby-identifier">max_radius</span>,  
+                          <span class="ruby-identifier">beg_angle</span>, 
+                          <span class="ruby-identifier">min_radius</span>, 
+                          <span class="ruby-identifier">max_radius</span>, 
+                          <span class="ruby-identifier">end_angle</span>,  
+                          <span class="ruby-identifier">depth</span>,
+                          <span class="ruby-identifier">degree_inc</span>)
+    <span class="ruby-identifier">aArc</span>.<span class="ruby-identifier">do_mill</span>()
+    <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">aArc</span>
+<span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

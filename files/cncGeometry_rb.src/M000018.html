@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>calc_point_rotated_relative (cncGeometry.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File cncGeometry.rb, line 279</span>
+<span class="ruby-keyword kw">def</span> <span class="ruby-identifier">calc_point_rotated_relative</span>(<span class="ruby-identifier">x</span>,<span class="ruby-identifier">y</span>, <span class="ruby-identifier">theta</span>)
+<span class="ruby-comment cmt"># - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+  <span class="ruby-identifier">theta</span> = <span class="ruby-identifier">conv_degree_to_radian</span>(<span class="ruby-identifier">theta</span>)
+  <span class="ruby-identifier">xr</span>= <span class="ruby-constant">Math</span>.<span class="ruby-identifier">cos</span>(<span class="ruby-identifier">theta</span>)<span class="ruby-operator">*</span><span class="ruby-identifier">x</span> <span class="ruby-operator">-</span> <span class="ruby-constant">Math</span>.<span class="ruby-identifier">sin</span>(<span class="ruby-identifier">theta</span>)<span class="ruby-operator">*</span><span class="ruby-identifier">y</span> 
+  <span class="ruby-identifier">yr</span> = <span class="ruby-constant">Math</span>.<span class="ruby-identifier">sin</span>(<span class="ruby-identifier">theta</span>)<span class="ruby-operator">*</span><span class="ruby-identifier">x</span> <span class="ruby-operator">+</span> <span class="ruby-constant">Math</span>.<span class="ruby-identifier">cos</span>(<span class="ruby-identifier">theta</span>)<span class="ruby-operator">*</span><span class="ruby-identifier">y</span> 
+  <span class="ruby-identifier">pRes</span> = <span class="ruby-constant">CNCPoint</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">xr</span>,<span class="ruby-identifier">yr</span>)
+<span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

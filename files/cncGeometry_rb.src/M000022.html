@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>calc_points_for_arc (cncGeometry.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File cncGeometry.rb, line 407</span>
+<span class="ruby-keyword kw">def</span> <span class="ruby-identifier">calc_points_for_arc</span>(<span class="ruby-identifier">cx</span>, <span class="ruby-identifier">cy</span>,<span class="ruby-identifier">radius</span>=<span class="ruby-value">1.0</span>, <span class="ruby-identifier">beg_angle</span>=<span class="ruby-value">0</span>, <span class="ruby-identifier">end_angle</span> = <span class="ruby-value">360</span>, <span class="ruby-identifier">degree_inc</span> = <span class="ruby-value">1.0</span>)
+<span class="ruby-comment cmt"># - - - - - - - - - - - - - - - - - - - - -</span>
+  <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">beg_angle</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">end_angle</span>
+    <span class="ruby-comment cmt">#swap if starting point is higher than ending point</span>
+    <span class="ruby-identifier">tt</span> = <span class="ruby-identifier">beg_angle</span>
+    <span class="ruby-identifier">end_angle</span> = <span class="ruby-identifier">beg_angle</span>
+    <span class="ruby-identifier">beg_angle</span> = <span class="ruby-identifier">tt</span>
+  <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+  <span class="ruby-identifier">res</span> = <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-identifier">curr_angle</span> = <span class="ruby-identifier">beg_angle</span>
+  <span class="ruby-comment cmt">#p2 = calc_point_rotated_relative(p2.x, p2.y,1)</span>
+  <span class="ruby-identifier">print</span> <span class="ruby-value str">&quot;angle_inc = &quot;</span>, <span class="ruby-identifier">angle_inc</span>, <span class="ruby-value str">&quot;\n&quot;</span>
+  <span class="ruby-identifier">print</span> <span class="ruby-value str">&quot;pp = &quot;</span>, <span class="ruby-identifier">pp</span>, <span class="ruby-value str">&quot;\n&quot;</span>
+  
+  <span class="ruby-identifier">start_point</span> = <span class="ruby-identifier">calc_point_from_angle</span>(<span class="ruby-value">0</span>,<span class="ruby-value">0</span>,<span class="ruby-identifier">beg_angle</span>, <span class="ruby-identifier">radius</span>)
+  <span class="ruby-identifier">last_point</span> = <span class="ruby-identifier">start_point</span> 
+  <span class="ruby-identifier">res</span>.<span class="ruby-identifier">append</span>(<span class="ruby-identifier">start_point</span>)
+ 
+  <span class="ruby-comment cmt"># sets up the change of the </span>
+  <span class="ruby-identifier">stop_angle</span> = <span class="ruby-identifier">end_angle</span>
+  <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">end_angle</span> <span class="ruby-operator">==</span> <span class="ruby-value">360</span>) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">beg_angle</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span>)
+    <span class="ruby-identifier">stop_angle</span> <span class="ruby-operator">-=</span> <span class="ruby-value">1</span>
+  <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+
+  <span class="ruby-identifier">cnt</span> = <span class="ruby-value">1</span>
+  <span class="ruby-identifier">print</span> <span class="ruby-value str">&quot;   relative rotate point = &quot;</span>, <span class="ruby-identifier">p2</span>, <span class="ruby-value str">&quot;\n&quot;</span>
+  <span class="ruby-keyword kw">while</span> (<span class="ruby-identifier">curr_angle</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-identifier">stop_angle</span>)
+     <span class="ruby-identifier">curr_angle</span>  <span class="ruby-operator">+=</span> <span class="ruby-identifier">angle_inc</span>
+     <span class="ruby-identifier">p2</span> = <span class="ruby-identifier">calc_point_rotated_relative</span>(<span class="ruby-identifier">last_point</span>.<span class="ruby-identifier">x</span>, <span class="ruby-identifier">last_point</span>.<span class="ruby-identifier">y</span>, <span class="ruby-identifier">angle_inc</span>)
+     <span class="ruby-identifier">print</span> <span class="ruby-value str">&quot;   relative rotate point = &quot;</span>, <span class="ruby-identifier">p2</span>, <span class="ruby-value str">&quot;\n&quot;</span>
+     <span class="ruby-identifier">res</span>.<span class="ruby-identifier">append</span>(<span class="ruby-identifier">p2</span>)
+     <span class="ruby-identifier">last_point</span> = <span class="ruby-identifier">p2</span>
+  <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">cnt</span>
+<span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>mill_cavity_s (CNCShapeRect)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File cncShapeRect.rb, line 167</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">mill_cavity_s</span>(<span class="ruby-identifier">lx</span>,<span class="ruby-identifier">ly</span>, <span class="ruby-identifier">mx</span>, <span class="ruby-identifier">my</span>, <span class="ruby-identifier">dd2</span>)
+    <span class="ruby-comment cmt"># - - - - - - - - - - - - - - - -     </span>
+      <span class="ruby-comment cmt">#print &quot;(mill rect cavity lx=&quot;,lx, &quot; ly=&quot;,ly, &quot; mx=&quot;,mx, &quot; my=&quot;, my,  &quot; depth=&quot;, dd2, &quot;)&quot;, &quot;\n&quot;</span>
+
+      <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">plung</span>(<span class="ruby-identifier">dd2</span>)  
+      <span class="ruby-identifier">lcx</span> = <span class="ruby-identifier">lx</span>
+      <span class="ruby-identifier">lcy</span> = <span class="ruby-identifier">ly</span>
+     
+
+      <span class="ruby-comment cmt"># start at inside and mill</span>
+      <span class="ruby-comment cmt"># towards the outside</span>
+      <span class="ruby-identifier">dx</span> = (<span class="ruby-identifier">mx</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">lx</span>).<span class="ruby-identifier">abs</span>
+      <span class="ruby-identifier">dy</span> = (<span class="ruby-identifier">my</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">ly</span>).<span class="ruby-identifier">abs</span>
+      <span class="ruby-identifier">mid_x</span> = <span class="ruby-identifier">lx</span> <span class="ruby-operator">+</span> (<span class="ruby-identifier">dx</span> <span class="ruby-operator">/</span> <span class="ruby-value">2</span>)
+      <span class="ruby-identifier">mid_y</span> = <span class="ruby-identifier">ly</span> <span class="ruby-operator">+</span> (<span class="ruby-identifier">dy</span> <span class="ruby-operator">/</span> <span class="ruby-value">2</span>)
+      <span class="ruby-identifier">no_pass_x</span> = ((<span class="ruby-identifier">dx</span> <span class="ruby-operator">/</span> <span class="ruby-identifier">cut_increment_rough</span>) <span class="ruby-operator">/</span> <span class="ruby-value">2</span>)
+      <span class="ruby-identifier">no_pass_y</span> = ((<span class="ruby-identifier">dy</span> <span class="ruby-operator">/</span> <span class="ruby-identifier">cut_increment_rough</span>) <span class="ruby-operator">/</span> <span class="ruby-value">2</span>)
+      <span class="ruby-comment cmt">#print &quot;(cut_increment_rough=&quot;, cut_increment_rough, &quot;)\n&quot;</span>
+      <span class="ruby-comment cmt"># if we have a long narrow cut we want to emphasize</span>
+      <span class="ruby-comment cmt"># cutting along the long axis to save time.</span>
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">dy</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">dx</span>
+        <span class="ruby-comment cmt"># difference in Y is greater than difference in X so </span>
+        <span class="ruby-comment cmt"># emphasize cutting on Y first.</span>
+        <span class="ruby-identifier">percent_dif</span> = <span class="ruby-identifier">dx</span> <span class="ruby-operator">/</span> <span class="ruby-identifier">dy</span>
+        <span class="ruby-identifier">begylen</span> = <span class="ruby-identifier">dy</span> <span class="ruby-operator">-</span> (<span class="ruby-identifier">no_pass_x</span>  <span class="ruby-operator">*</span> <span class="ruby-identifier">cut_increment_rough</span>)
+        <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">begylen</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">bit_diam</span>)
+          <span class="ruby-identifier">begylen</span> = <span class="ruby-identifier">bit_diam</span>
+        <span class="ruby-keyword kw">end</span>
+        <span class="ruby-identifier">begxlen</span> = <span class="ruby-identifier">bit_radius</span>
+        <span class="ruby-identifier">no_pass</span> = <span class="ruby-identifier">no_pass_x</span>
+        <span class="ruby-comment cmt">#print &quot;(mill_rect emphasize Y begylen=&quot;, begylen, &quot;  begxlen=&quot;, begxlen, &quot;)\n&quot;</span>
+        <span class="ruby-comment cmt">#print &quot;( dx=&quot;, dx, &quot;  dy=&quot;, dy,  &quot; mid_x=&quot;, mid_x,  &quot; mid_y=&quot;, mid_y, &quot;)\n&quot;</span>
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-comment cmt"># emphasize cutting on the X axis first</span>
+        <span class="ruby-identifier">percent_dif</span> = <span class="ruby-identifier">dy</span> <span class="ruby-operator">/</span> <span class="ruby-identifier">dx</span>
+        <span class="ruby-identifier">begxlen</span> = <span class="ruby-identifier">dx</span> <span class="ruby-operator">-</span> (<span class="ruby-identifier">no_pass_y</span> <span class="ruby-operator">*</span> <span class="ruby-identifier">cut_increment_rough</span>)
+        <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">begxlen</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">bit_diam</span>)
+          <span class="ruby-identifier">begxlen</span> = <span class="ruby-identifier">bit_diam</span>
+        <span class="ruby-keyword kw">end</span>
+        <span class="ruby-identifier">begylen</span> = <span class="ruby-identifier">bit_radius</span>
+        <span class="ruby-identifier">no_pass</span> = <span class="ruby-identifier">no_pass_y</span>
+        <span class="ruby-comment cmt">#print &quot;(mill_rect emphasize X  begxlen=&quot;, begxlen, &quot; begylen=&quot;, begylen, &quot;)\n&quot;</span>
+        <span class="ruby-comment cmt">#print &quot;( dx=&quot;, dx, &quot;  dy=&quot;, dy,  &quot; mid_x=&quot;, mid_x,  &quot; mid_y=&quot;, mid_y, &quot;)\n&quot;</span>
+      <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#i</span>
+
+      
+      <span class="ruby-comment cmt">#print &quot;(begxlen = &quot;, begxlen, &quot;  begylen=&quot;, begylen,  &quot; mid_x=&quot;, mid_x, &quot;  mid_y =&quot;, mid_y, &quot;  no_pass=&quot;, no_pass, &quot;)\n&quot;</span>
+
+
+      <span class="ruby-comment cmt"># Based on the chosen favorable cut axis </span>
+      <span class="ruby-comment cmt"># calcualte the initial length of each X,Y</span>
+      <span class="ruby-identifier">clx</span>   = <span class="ruby-identifier">mid_x</span> <span class="ruby-operator">-</span>  (<span class="ruby-identifier">begxlen</span> <span class="ruby-operator">/</span> <span class="ruby-value">2</span>)
+      <span class="ruby-identifier">cly</span>   = <span class="ruby-identifier">mid_y</span> <span class="ruby-operator">-</span> (<span class="ruby-identifier">begylen</span> <span class="ruby-operator">/</span> <span class="ruby-value">2</span>)
+      <span class="ruby-identifier">cmx</span> = <span class="ruby-identifier">mid_x</span> <span class="ruby-operator">+</span> (<span class="ruby-identifier">begxlen</span> <span class="ruby-operator">/</span> <span class="ruby-value">2</span>)
+      <span class="ruby-identifier">cmy</span> = <span class="ruby-identifier">mid_y</span>  <span class="ruby-operator">+</span> (<span class="ruby-identifier">begylen</span> <span class="ruby-operator">/</span> <span class="ruby-value">2</span>)
+
+      <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">clx</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">lx</span>)
+        <span class="ruby-identifier">clx</span> = <span class="ruby-identifier">lx</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">cly</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">ly</span>)
+         <span class="ruby-identifier">cly</span> = <span class="ruby-identifier">ly</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">cmx</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">mx</span>)
+        <span class="ruby-identifier">cmx</span> = <span class="ruby-identifier">mx</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">cmy</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">my</span>)
+        <span class="ruby-identifier">cmy</span> = <span class="ruby-identifier">my</span>
+      <span class="ruby-keyword kw">end</span>
+
+
+      <span class="ruby-comment cmt">#print &quot;(L217:  clx=&quot;, clx, &quot;  cly=&quot;,  cly,  &quot; cmx=&quot;, cmx, &quot;  cmy=&quot;, cmy, &quot;)\n&quot;</span>
+ 
+ 
+
+      <span class="ruby-keyword kw">if</span> ((<span class="ruby-identifier">mx</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">cmx</span>) <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">cut_increment_rough</span> <span class="ruby-operator">&amp;&amp;</span> ((<span class="ruby-identifier">my</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">cmy</span>) <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">cut_increment_rough</span>))  <span class="ruby-operator">||</span> (<span class="ruby-ivar">@include_finish_cut</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">false</span>)
+        <span class="ruby-identifier">curr_cut_inc</span>  = <span class="ruby-identifier">cut_increment_rough</span>
+        <span class="ruby-identifier">set_speed_rough</span>
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-identifier">curr_cut_inc</span>  = <span class="ruby-identifier">cut_increment_finish</span>
+        <span class="ruby-identifier">set_speed_finish</span>
+      <span class="ruby-keyword kw">end</span>
+
+      <span class="ruby-keyword kw">while</span> <span class="ruby-keyword kw">true</span>
+        <span class="ruby-comment cmt">#print &quot; (L228  clx=&quot;, clx, &quot;  cly=&quot;,  cly,  &quot; cmx=&quot;, cmx, &quot;  cmy=&quot;, cmy, &quot;)\n&quot;</span>
+        <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">move</span>(<span class="ruby-identifier">clx</span>,<span class="ruby-identifier">cly</span>)
+        <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">move</span>(<span class="ruby-identifier">clx</span>,<span class="ruby-identifier">cmy</span>)
+        <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">move</span>(<span class="ruby-identifier">cmx</span>,<span class="ruby-identifier">cmy</span>)
+        <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">move</span>(<span class="ruby-identifier">cmx</span>,<span class="ruby-identifier">cly</span>)
+        <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">move</span>(<span class="ruby-identifier">clx</span>,<span class="ruby-identifier">cly</span>)
+
+        <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">cmx</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">mx</span>) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">cmy</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">my</span>)
+          <span class="ruby-comment cmt">#print &quot;(exactly matched requeseted raidius so done)\n&quot;</span>
+          <span class="ruby-keyword kw">break</span>  <span class="ruby-comment cmt"># finished the loop</span>
+        <span class="ruby-keyword kw">end</span>  <span class="ruby-comment cmt">#if </span>
+
+        <span class="ruby-keyword kw">if</span> (((<span class="ruby-identifier">cmx</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">curr_cut_inc</span>) <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">mx</span>) <span class="ruby-operator">||</span> ((<span class="ruby-identifier">cmy</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">curr_cut_inc</span>) <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">my</span>)) <span class="ruby-operator">&amp;&amp;</span>  (<span class="ruby-ivar">@include_finish_cut</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">true</span>)
+          <span class="ruby-comment cmt">#print &quot;(L240 starting finish cut)&quot;</span>
+          <span class="ruby-identifier">set_speed_finish</span>
+          <span class="ruby-identifier">curr_cut_inc</span> = <span class="ruby-identifier">cut_increment_finish</span>
+        <span class="ruby-keyword kw">end</span>
+
+        <span class="ruby-identifier">clx</span> <span class="ruby-operator">-=</span> <span class="ruby-identifier">curr_cut_inc</span>
+        <span class="ruby-identifier">cly</span> <span class="ruby-operator">-=</span> <span class="ruby-identifier">curr_cut_inc</span>
+        <span class="ruby-identifier">cmx</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">curr_cut_inc</span>
+        <span class="ruby-identifier">cmy</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">curr_cut_inc</span>
+
+        <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">cmx</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">mx</span>)
+          <span class="ruby-comment cmt">#print &quot;(exceed mx &quot;, mx, &quot; so set back)\n&quot;</span>
+          <span class="ruby-identifier">cmx</span> = <span class="ruby-identifier">mx</span>
+        <span class="ruby-keyword kw">end</span>
+
+        <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">clx</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">lx</span>)
+          <span class="ruby-comment cmt">#print &quot;(exceed lx=&quot;, lx, &quot; clx=&quot;, clx, &quot;)\n&quot;</span>
+          <span class="ruby-identifier">clx</span> = <span class="ruby-identifier">lx</span>
+        <span class="ruby-keyword kw">end</span>
+
+        <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">cmy</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">my</span>)
+          <span class="ruby-comment cmt">#print &quot;(exceed my&quot;, my, &quot; so set back)\n&quot;</span>
+          <span class="ruby-identifier">cmy</span> = <span class="ruby-identifier">my</span>
+        <span class="ruby-keyword kw">end</span>
+       
+       
+       <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">cly</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">ly</span>)
+          <span class="ruby-comment cmt">#print &quot;(exceed ly=&quot;, ly, &quot;  cly=&quot;, cly, &quot;)\n&quot;</span>
+          <span class="ruby-identifier">cly</span>  =  <span class="ruby-identifier">ly</span>
+       <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#while</span>
+      <span class="ruby-comment cmt">#@mill.move(lx,ly) # setup for next pass</span>
+      <span class="ruby-identifier">set_speed_rough</span>
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

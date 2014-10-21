@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>circ_array (CNCShapeArc)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File cncShapeArc.rb, line 484</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">circ_array</span>(<span class="ruby-identifier">num_elem</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-identifier">degree_between</span>=<span class="ruby-keyword kw">nil</span>)
+  <span class="ruby-comment cmt"># - - - - - - - - - - - - - - - - - - - -</span>
+     <span class="ruby-identifier">curr_beg_angle</span>   = <span class="ruby-ivar">@beg_angle</span>
+     <span class="ruby-identifier">curr_end_angle</span>   = <span class="ruby-ivar">@end_angle</span>
+     <span class="ruby-identifier">sweep_angle</span>      = <span class="ruby-ivar">@end_angle</span> <span class="ruby-operator">-</span>  <span class="ruby-ivar">@beg_angle</span>
+
+     <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">degree_between</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">nil</span>)
+       <span class="ruby-identifier">degree_between</span> = <span class="ruby-identifier">sweep_angle</span> <span class="ruby-operator">/</span> <span class="ruby-value">2.0</span>
+       <span class="ruby-identifier">degree_between_specified</span> = <span class="ruby-keyword kw">false</span>
+     <span class="ruby-keyword kw">else</span>
+       <span class="ruby-identifier">degree_between</span> = <span class="ruby-value">0</span><span class="ruby-value">.0</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">degree_between</span>
+       <span class="ruby-identifier">degree_between_specified</span> = <span class="ruby-keyword kw">true</span>
+     <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+     
+
+     <span class="ruby-comment cmt"># Determine the number of elements we</span>
+     <span class="ruby-comment cmt"># can have</span>
+     <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">num_elem</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">nil</span>) <span class="ruby-operator">||</span> (<span class="ruby-identifier">num_elem</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span>)
+       <span class="ruby-identifier">degree_inc</span> = <span class="ruby-identifier">sweep_angle</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">degree_between</span>
+       <span class="ruby-identifier">num_elem</span>  = <span class="ruby-constant">Integer</span>(<span class="ruby-value">360.0</span> <span class="ruby-operator">/</span> <span class="ruby-identifier">degree_inc</span>)
+     <span class="ruby-keyword kw">elsif</span> (<span class="ruby-identifier">num_elem</span> <span class="ruby-operator">*</span> <span class="ruby-identifier">sweep_angle</span>) <span class="ruby-operator">&gt;</span> <span class="ruby-value">360</span>
+       <span class="ruby-identifier">max_ele</span> = <span class="ruby-constant">Integer</span>(<span class="ruby-value">360</span> <span class="ruby-operator">/</span><span class="ruby-identifier">sweep_angle</span>)
+       <span class="ruby-identifier">degree_inc</span> = <span class="ruby-identifier">sweep_angle</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">degree_between</span>
+     <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+
+
+     <span class="ruby-comment cmt">#degree_inc = 360.0   </span>
+     <span class="ruby-comment cmt">#Adjust space between to get even spacing</span>
+     <span class="ruby-comment cmt">#if (degree_between_specified == false)</span>
+     <span class="ruby-comment cmt">#  total_sweep = (sweep_angle * num_elem)</span>
+     <span class="ruby-comment cmt">#  extra_sweep = 360 - total_sweep</span>
+     <span class="ruby-comment cmt">#  degree_between = extra_sweep / (num_elem - 1)</span>
+     <span class="ruby-comment cmt">#  print &quot;(recalced degree_between=&quot;, degree_betwee, &quot;)\n&quot;</span>
+     <span class="ruby-comment cmt">#end #if</span>
+
+     <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">degree_between_specified</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">true</span>)
+       <span class="ruby-identifier">degree_inc</span> = <span class="ruby-identifier">sweep_angle</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">degree_between</span>
+     <span class="ruby-keyword kw">else</span>
+       <span class="ruby-identifier">degree_inc</span> = <span class="ruby-value">360</span> <span class="ruby-operator">/</span> <span class="ruby-identifier">num_elem</span>
+     <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+
+     <span class="ruby-comment cmt"># illustrate an easy way to get a</span>
+     <span class="ruby-comment cmt"># repeating array of arc pockets</span>
+     <span class="ruby-keyword kw">for</span> <span class="ruby-identifier">ele_cnt</span> <span class="ruby-keyword kw">in</span> (<span class="ruby-value">1</span><span class="ruby-operator">..</span><span class="ruby-identifier">num_elem</span>) 
+        <span class="ruby-ivar">@beg_angle</span> = <span class="ruby-identifier">curr_beg_angle</span> 
+        <span class="ruby-ivar">@end_angle</span> = <span class="ruby-identifier">beg_angle</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">sweep_angle</span>
+        <span class="ruby-identifier">do_mill</span>()
+        <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">retract</span>()
+        <span class="ruby-identifier">curr_beg_angle</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">degree_inc</span>
+        <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">curr_beg_angle</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">360</span>)
+          <span class="ruby-identifier">curr_beg_angle</span> = <span class="ruby-identifier">curr_beg_angle</span> <span class="ruby-operator">%</span> <span class="ruby-value">360</span>
+        <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#for</span>
+     <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#for</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

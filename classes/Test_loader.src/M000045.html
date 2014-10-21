@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>new (Test_loader)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File test_loader_1.rb, line 20</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">load_fi</span>)
+    <span class="ruby-identifier">f</span> = <span class="ruby-identifier">open</span>(<span class="ruby-identifier">load_fi</span>, <span class="ruby-value str">&quot;r&quot;</span>)
+    <span class="ruby-keyword kw">begin</span>
+      <span class="ruby-identifier">f</span>.<span class="ruby-identifier">each_line</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">line</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">print</span> <span class="ruby-value str">&quot;line=&quot;</span>, <span class="ruby-identifier">line</span>
+        <span class="ruby-identifier">eval</span>(<span class="ruby-identifier">line</span>)
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">ensure</span>
+      <span class="ruby-identifier">f</span>.<span class="ruby-identifier">close</span>
+    <span class="ruby-keyword kw">end</span>
+ 
+ 
+    <span class="ruby-ivar">@fi_name</span> = <span class="ruby-identifier">load_fi</span>
+    
+    <span class="ruby-comment cmt">#eval(&quot;test_var=98\n@ttv=97&quot;, self)</span>
+
+    <span class="ruby-comment cmt">#print &quot;test_var=&quot;, test_var, &quot; @ttv=&quot;, @ttv, &quot;\n&quot;</span>
+   
+    <span class="ruby-identifier">print</span> <span class="ruby-value str">&quot;XXXX\n&quot;</span>
+    <span class="ruby-identifier">eval</span>(<span class="ruby-value str">&quot;print load_fi&quot;</span>)
+    <span class="ruby-identifier">print</span> <span class="ruby-value str">&quot;YYYY\n&quot;</span>
+
+    <span class="ruby-identifier">eval</span>(<span class="ruby-value str">&quot;self.funcx&quot;</span>)
+
+    <span class="ruby-identifier">load</span>(<span class="ruby-identifier">load_fi</span>)
+
+    <span class="ruby-comment cmt">#print &quot;bit_dens=&quot;, bit_dens, &quot;  @bit_size=&quot;, @bit_size, &quot;\n&quot;</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

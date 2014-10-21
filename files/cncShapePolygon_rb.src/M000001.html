@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>mill_hex_pocket (cncShapePolygon.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File cncShapePolygon.rb, line 15</span>
+<span class="ruby-keyword kw">def</span> <span class="ruby-identifier">mill_hex_pocket</span>(<span class="ruby-identifier">mill</span>, <span class="ruby-identifier">cent_x</span>, <span class="ruby-identifier">cent_y</span>, <span class="ruby-identifier">diam</span>, <span class="ruby-identifier">depth</span>=<span class="ruby-keyword kw">nil</span>)
+<span class="ruby-comment cmt">#####################################</span>
+   <span class="ruby-identifier">aPoly</span> = <span class="ruby-constant">CNCShapePolygon</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">mill</span>,  <span class="ruby-identifier">cent_x</span>,  <span class="ruby-identifier">cent_y</span>,    <span class="ruby-keyword kw">nil</span>, <span class="ruby-identifier">diam</span>=<span class="ruby-value">0</span><span class="ruby-value">.25</span>, <span class="ruby-identifier">num_sides</span>=<span class="ruby-value">6</span>, <span class="ruby-identifier">depth</span>=<span class="ruby-keyword kw">nil</span>,  <span class="ruby-identifier">degree_inc</span>=<span class="ruby-keyword kw">nil</span>)
+   <span class="ruby-identifier">aPoly</span>.<span class="ruby-identifier">do_mill</span>()
+   <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">aPoly</span>
+<span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

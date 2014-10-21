@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>mill_arc (cncShapeArc.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File cncShapeArc.rb, line 21</span>
+   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">mill_arc</span>(<span class="ruby-identifier">mill</span>, <span class="ruby-identifier">xo</span>,<span class="ruby-identifier">yo</span>,<span class="ruby-identifier">radius</span>, <span class="ruby-identifier">speed</span>=<span class="ruby-keyword kw">nil</span>,  <span class="ruby-identifier">direction</span> = <span class="ruby-value str">&quot;G03&quot;</span>)
+   <span class="ruby-comment cmt"># - - - - - - - - - - - - - - - - - -</span>
+     <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">speed</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">nil</span>)
+      <span class="ruby-identifier">speed</span> = <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">speed</span>
+     <span class="ruby-keyword kw">elsif</span> (<span class="ruby-identifier">speed</span> <span class="ruby-operator">==</span> <span class="ruby-value str">&quot;G03&quot;</span>) <span class="ruby-operator">||</span> (<span class="ruby-identifier">speed</span> <span class="ruby-operator">==</span> <span class="ruby-value str">&quot;G02&quot;</span>)
+       <span class="ruby-comment cmt"># allows us to keep old functions</span>
+       <span class="ruby-comment cmt"># that where not passing speed working</span>
+       <span class="ruby-identifier">direction</span> = <span class="ruby-identifier">speed</span>
+       <span class="ruby-identifier">speed</span> = <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">speed</span>
+     <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+
+
+     <span class="ruby-identifier">cp</span> = <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">apply_limits</span>(<span class="ruby-identifier">xo</span>,<span class="ruby-identifier">yo</span>)
+       <span class="ruby-comment cmt"># Adjust our X,Y coordinates to fit</span>
+       <span class="ruby-comment cmt"># inside our machines currently defined</span>
+       <span class="ruby-comment cmt"># limits.</span>
+
+     <span class="ruby-identifier">opcode</span> = <span class="ruby-value str">&quot;G03&quot;</span>
+     <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">direction</span> <span class="ruby-operator">==</span> <span class="ruby-value str">&quot;G02&quot;</span>) <span class="ruby-operator">||</span> (<span class="ruby-identifier">direction</span> <span class="ruby-operator">==</span> <span class="ruby-value str">&quot;clockwise&quot;</span>)
+       <span class="ruby-identifier">opcode</span> = <span class="ruby-value str">&quot;G02&quot;</span>
+     <span class="ruby-keyword kw">end</span>
+
+   
+
+     <span class="ruby-identifier">print</span> <span class="ruby-identifier">opcode</span>, <span class="ruby-value str">&quot; X&quot;</span>, <span class="ruby-identifier">sprintf</span>(<span class="ruby-value str">&quot;%8.3f&quot;</span>, <span class="ruby-identifier">cp</span>.<span class="ruby-identifier">x</span>), <span class="ruby-value str">&quot; Y&quot;</span>,<span class="ruby-identifier">sprintf</span>(<span class="ruby-value str">&quot;%8.3f&quot;</span>, <span class="ruby-identifier">cp</span>.<span class="ruby-identifier">y</span>) ,  <span class="ruby-value str">&quot; R&quot;</span>,<span class="ruby-identifier">sprintf</span>(<span class="ruby-value str">&quot;%8.3f&quot;</span>, <span class="ruby-identifier">radius</span>) ,  <span class="ruby-value str">&quot; F&quot;</span>,  <span class="ruby-identifier">speed</span>, <span class="ruby-value str">&quot;\n&quot;</span>
+    <span class="ruby-ivar">@cy</span> = <span class="ruby-identifier">yo</span>
+    <span class="ruby-ivar">@cx</span> = <span class="ruby-identifier">xo</span>
+   <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

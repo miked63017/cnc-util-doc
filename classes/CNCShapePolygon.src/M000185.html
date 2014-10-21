@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>do_mill_s (CNCShapePolygon)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File cncShapePolygon.rb, line 149</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">do_mill_s</span>(<span class="ruby-identifier">tmp_depth</span>)
+  <span class="ruby-comment cmt"># - - - - - - - - - - - - -</span>
+    <span class="ruby-identifier">tmp_max_diam</span> = <span class="ruby-ivar">@diam</span>
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-ivar">@cutter_comp</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">true</span>)
+      <span class="ruby-identifier">tmp_max_diam</span> <span class="ruby-operator">-=</span> <span class="ruby-ivar">@mill</span>.<span class="ruby-identifier">bit_radius</span>
+    <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@pocket_flat</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">false</span>
+     <span class="ruby-identifier">curr_diam</span> = <span class="ruby-identifier">tmp_max_diam</span>
+     <span class="ruby-comment cmt"># we only need on circle </span>
+     <span class="ruby-comment cmt"># rather than spiraling</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-identifier">curr_diam</span> = <span class="ruby-identifier">bit_radius</span>
+    <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+    <span class="ruby-keyword kw">while</span> <span class="ruby-keyword kw">true</span>
+      <span class="ruby-identifier">mill_polygon</span>(
+        <span class="ruby-identifier">mill</span> = <span class="ruby-ivar">@mill</span>,
+        <span class="ruby-identifier">cent_x</span> = <span class="ruby-ivar">@x</span>,
+        <span class="ruby-identifier">cent_y</span> = <span class="ruby-ivar">@y</span>,
+        <span class="ruby-identifier">diam</span>   = <span class="ruby-identifier">curr_diam</span>,
+        <span class="ruby-identifier">no_sides</span> = <span class="ruby-ivar">@num_sides</span>,
+        <span class="ruby-identifier">depth</span> = <span class="ruby-identifier">tmp_depth</span>,
+        <span class="ruby-identifier">cutter_comp</span> = <span class="ruby-keyword kw">false</span>)
+      <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">curr_diam</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">tmp_max_diam</span>)
+        <span class="ruby-comment cmt"># we are done milling because</span>
+        <span class="ruby-comment cmt"># we got an exact match on</span>
+        <span class="ruby-comment cmt"># our target diameter</span>
+        <span class="ruby-keyword kw">break</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-identifier">curr_diam</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">cut_increment</span>
+      <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">curr_diam</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">tmp_max_diam</span>)
+        <span class="ruby-identifier">curr_diam</span> = <span class="ruby-identifier">tmp_max_diam</span>
+      <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#if</span>
+    <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#while</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

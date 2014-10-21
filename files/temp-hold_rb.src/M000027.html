@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>increasing_arc (temp-hold.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File temp-hold.rb, line 4</span>
+<span class="ruby-keyword kw">def</span>  <span class="ruby-identifier">increasing_arc</span>(<span class="ruby-identifier">mill</span>, <span class="ruby-identifier">cx</span>,<span class="ruby-identifier">cy</span>,<span class="ruby-identifier">beg_radius</span>, <span class="ruby-identifier">beg_angle</span>, <span class="ruby-identifier">end_radius</span>, <span class="ruby-identifier">end_angle</span>, <span class="ruby-identifier">degree_inc</span> = <span class="ruby-value">1.0</span>, <span class="ruby-identifier">depth</span> = <span class="ruby-value">-0</span><span class="ruby-value">.5</span>)
+<span class="ruby-comment cmt"># - - - - - - - - - - - - - - - - - - - -</span>
+  <span class="ruby-identifier">print</span> <span class="ruby-value str">&quot;(increasing arc)\n&quot;</span>
+  <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">beg_angle</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">end_angle</span>)
+    <span class="ruby-identifier">tt</span> = <span class="ruby-identifier">beg_angle</span>
+    <span class="ruby-identifier">beg_angle</span> = <span class="ruby-identifier">end_angle</span> 
+    <span class="ruby-identifier">end_angle</span>  = <span class="ruby-identifier">tt</span>
+  <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">beg_radius</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">end_radius</span>)
+    <span class="ruby-identifier">tt</span> = <span class="ruby-identifier">end_radius</span>
+    <span class="ruby-identifier">end_radius</span> = <span class="ruby-identifier">beg_radius</span>
+    <span class="ruby-identifier">beg_radius</span> = <span class="ruby-identifier">tt</span>
+  <span class="ruby-keyword kw">end</span>
+
+  <span class="ruby-identifier">deg</span> = <span class="ruby-identifier">beg_angle</span>
+  <span class="ruby-identifier">degree_inc</span> = <span class="ruby-identifier">degree_inc</span>.<span class="ruby-identifier">abs</span>
+  <span class="ruby-identifier">radius_change</span> = (<span class="ruby-identifier">end_radius</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">beg_radius</span>).<span class="ruby-identifier">abs</span>
+  <span class="ruby-identifier">sweep</span> = (<span class="ruby-identifier">end_angle</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">beg_angle</span>).<span class="ruby-identifier">abs</span>
+  <span class="ruby-identifier">no_steps</span> = <span class="ruby-identifier">sweep</span> <span class="ruby-operator">/</span> <span class="ruby-identifier">degree_inc</span>
+  <span class="ruby-identifier">radius_change_per_deg_inc</span>  = <span class="ruby-identifier">radius_change</span> <span class="ruby-operator">/</span> <span class="ruby-identifier">no_steps</span>
+  <span class="ruby-identifier">tradius</span> = <span class="ruby-identifier">beg_radius</span>
+  <span class="ruby-identifier">cp</span> = <span class="ruby-identifier">calc_point_from_angle</span>(<span class="ruby-identifier">cx</span>,<span class="ruby-identifier">cy</span>, <span class="ruby-identifier">deg</span>, <span class="ruby-identifier">tradius</span>)
+  <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">move</span>(<span class="ruby-identifier">cp</span>.<span class="ruby-identifier">x</span>, <span class="ruby-identifier">cp</span>.<span class="ruby-identifier">y</span>)
+  <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">plung</span>(<span class="ruby-identifier">depth</span>)
+  <span class="ruby-keyword kw">while</span> (<span class="ruby-identifier">deg</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-identifier">end_angle</span>)
+      <span class="ruby-comment cmt">#print &quot;(deg = &quot;, deg, &quot;)\n&quot;</span>
+       <span class="ruby-comment cmt">#radians = conv_degree_to_radian(tang -90)</span>
+       <span class="ruby-comment cmt">#new_x  = cx + Math.cos(radians) * (length)</span>
+       <span class="ruby-comment cmt">#new_y =  cy + Math.sin(radians) * (length)</span>
+
+      <span class="ruby-identifier">cp</span> = <span class="ruby-identifier">calc_point_from_angle</span>(<span class="ruby-identifier">cx</span>,<span class="ruby-identifier">cy</span>, <span class="ruby-identifier">deg</span>, <span class="ruby-identifier">tradius</span>)
+      <span class="ruby-identifier">mill</span>.<span class="ruby-identifier">move</span>(<span class="ruby-identifier">cp</span>.<span class="ruby-identifier">x</span>, <span class="ruby-identifier">cp</span>.<span class="ruby-identifier">y</span>)
+      <span class="ruby-identifier">deg</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">degree_inc</span>
+      <span class="ruby-identifier">tradius</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">radius_change_per_deg_inc</span>
+     
+   <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt">#while</span>
+<span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

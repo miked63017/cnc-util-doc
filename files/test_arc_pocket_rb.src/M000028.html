@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>arc_test_0 (test_arc_pocket.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File test_arc_pocket.rb, line 6</span>
+<span class="ruby-keyword kw">def</span> <span class="ruby-identifier">arc_test_0</span>
+<span class="ruby-comment cmt"># - - - - - - - - - - - - - - - - - - - -</span>
+  <span class="ruby-comment cmt">#############</span>
+  <span class="ruby-comment cmt">### ARC TEST #0</span>
+  <span class="ruby-comment cmt">#############</span>
+  <span class="ruby-identifier">aMill</span> = <span class="ruby-constant">CNCMill</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-identifier">aMill</span>.<span class="ruby-identifier">job_start</span>()
+  <span class="ruby-identifier">aMill</span>.<span class="ruby-identifier">home</span>()
+  <span class="ruby-comment cmt">#  variables used here to make</span>
+  <span class="ruby-comment cmt">#  easy for reader.</span>
+
+  <span class="ruby-identifier">aRes</span> = <span class="ruby-identifier">arc_segment_pocket</span>(
+     <span class="ruby-identifier">mill</span> = <span class="ruby-identifier">aMill</span>, 
+     <span class="ruby-identifier">circ_x</span>  = <span class="ruby-value">1.0</span>,
+     <span class="ruby-identifier">circ_y</span>  = <span class="ruby-value">1.0</span>,
+     <span class="ruby-identifier">min_radius</span> = <span class="ruby-value">0</span><span class="ruby-value">.82</span>,
+     <span class="ruby-identifier">max_radius</span> = <span class="ruby-value">0</span><span class="ruby-value">.95</span>,
+     <span class="ruby-identifier">beg_angle</span>  = <span class="ruby-value">41.0</span>,
+     <span class="ruby-identifier">end_angle</span>  = <span class="ruby-value">48.3</span>,
+     <span class="ruby-identifier">depth</span>      = <span class="ruby-value">-1.8</span>,
+     <span class="ruby-identifier">degree_inc</span> = <span class="ruby-value">0</span><span class="ruby-value">.5</span>)
+     
+  <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">aRes</span>
+<span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

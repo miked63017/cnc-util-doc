@@ -1,0 +1,601 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: cncGeometry.rb</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>cncGeometry.rb</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>cncGeometry.rb
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Tue Jan 17 23:09:02 Mountain Standard Time 2006</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+cncGeometry.rb
+</p>
+<pre>
+ A set of Geometry and Calculas functions used to calculate  things like Polar Rectangular
+ to   X,Y coridinates to walk around circles,  to calculate the points of a curve, etc.
+ See (C) notice in http://xdobs.com/cnc/CNCUtil/license.txt for license and copyright.
+</pre>
+
+    </div>
+
+    <div id="requires-list">
+      <h3 class="section-bar">Required files</h3>
+
+      <div class="name-list">
+      <a href="cncPoint_rb.html">cncPoint</a>&nbsp;&nbsp;
+      <a href="cncExtent_rb.html">cncExtent</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000017">calc_angle</a>&nbsp;&nbsp;
+      <a href="#M000023">calc_center_point</a>&nbsp;&nbsp;
+      <a href="#M000013">calc_distance</a>&nbsp;&nbsp;
+      <a href="#M000024">calc_extents_for_array</a>&nbsp;&nbsp;
+      <a href="#M000021">calc_point_from_angle</a>&nbsp;&nbsp;
+      <a href="#M000019">calc_point_rotated_abs</a>&nbsp;&nbsp;
+      <a href="#M000018">calc_point_rotated_relative</a>&nbsp;&nbsp;
+      <a href="#M000022">calc_points_for_arc</a>&nbsp;&nbsp;
+      <a href="#M000012">calc_slope</a>&nbsp;&nbsp;
+      <a href="#M000010">conv_degree_to_radian</a>&nbsp;&nbsp;
+      <a href="#M000015">conv_polar_to_xy</a>&nbsp;&nbsp;
+      <a href="#M000011">conv_radian_to_degree</a>&nbsp;&nbsp;
+      <a href="#M000014">conv_xy_to_polar</a>&nbsp;&nbsp;
+      <a href="#M000026">get_arc_points</a>&nbsp;&nbsp;
+      <a href="#M000016">polar_to_xy_</a>&nbsp;&nbsp;
+      <a href="#M000025">rotate_array</a>&nbsp;&nbsp;
+      <a href="#M000020">rotate_object</a>&nbsp;&nbsp;
+      <a href="#M000009">to_f</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+    <div id="includes">
+      <h3 class="section-bar">Included Modules</h3>
+
+      <div id="includes-list">
+        <span class="include-name">Math</span>
+      </div>
+    </div>
+
+    <div id="section">
+
+
+    <div id="constants-list">
+      <h3 class="section-bar">Constants</h3>
+
+      <div class="name-list">
+        <table summary="Constants">
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">Radian_to_degree_mult</td>
+          <td>=</td>
+          <td class="context-item-value">180.0 /  PI;</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+Used these contstances to save a division when converting from Degrees to
+radians
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">Degree_to_radian_mult</td>
+          <td>=</td>
+          <td class="context-item-value">PI / 180.0;</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000017" class="method-detail">
+        <a name="M000017"></a>
+
+        <div class="method-heading">
+          <a href="cncGeometry_rb.src/M000017.html" target="Code" class="method-signature"
+            onclick="popupCode('cncGeometry_rb.src/M000017.html');return false;">
+          <span class="method-name">calc_angle</span><span class="method-args">(x1, y1, x2, y2)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <pre>
+ assuming a a circle with the center at X1,Y1
+ and 0 / 180 degrees on the Y Axis where
+ 0 degrees is the top then
+ calculate the angle relative to this 0,0 for
+</pre>
+<p>
+the a given point (x2,y2) that is assumed to be on the perimiter of the
+circle.
+</p>
+<pre>
+  WARNING:  This will not return polar coordnates
+     because those are calculated relative to the
+     X axis.
+ - - - - - - - - - - - - - - - - - - - -
+</pre>
+        </div>
+      </div>
+
+      <div id="method-M000023" class="method-detail">
+        <a name="M000023"></a>
+
+        <div class="method-heading">
+          <a href="cncGeometry_rb.src/M000023.html" target="Code" class="method-signature"
+            onclick="popupCode('cncGeometry_rb.src/M000023.html');return false;">
+          <span class="method-name">calc_center_point</span><span class="method-args">(aArray)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+return a point filled in with the center x,y,c for a given array. This
+actually does the same amount of work as the calc_extents but throws away
+the min/max information so if that information is needed then use the
+calc_extents function instead.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000013" class="method-detail">
+        <a name="M000013"></a>
+
+        <div class="method-heading">
+          <a href="cncGeometry_rb.src/M000013.html" target="Code" class="method-signature"
+            onclick="popupCode('cncGeometry_rb.src/M000013.html');return false;">
+          <span class="method-name">calc_distance</span><span class="method-args">(x1,y1, x2,y2)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+returns distance between two points. uses pythagreans therom to calculate
+the distance between two points on a grid. Can also be used to calculate
+radius of a circle when the location of the center and one point on the
+perimiter is known.
+</p>
+<ul>
+<li>- - - - - - - - - - - - - - - - - - -
+
+</li>
+</ul>
+        </div>
+      </div>
+
+      <div id="method-M000024" class="method-detail">
+        <a name="M000024"></a>
+
+        <div class="method-heading">
+          <a href="cncGeometry_rb.src/M000024.html" target="Code" class="method-signature"
+            onclick="popupCode('cncGeometry_rb.src/M000024.html');return false;">
+          <span class="method-name">calc_extents_for_array</span><span class="method-args">(aArray)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+return a filled in extents object for an array that contains the min_max
+x,y,z along with the center x,y,z for the array. This is used to calculate
+the rotation axis for that array.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000021" class="method-detail">
+        <a name="M000021"></a>
+
+        <div class="method-heading">
+          <a href="cncGeometry_rb.src/M000021.html" target="Code" class="method-signature"
+            onclick="popupCode('cncGeometry_rb.src/M000021.html');return false;">
+          <span class="method-name">calc_point_from_angle</span><span class="method-args">(cx, cy, angle, length)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Calculate the X,Y location of a point relative to the center of circle.
+Where that point is rotated around the circle by angle degrees. and is
+length long. for a circle centered on cirX,cirY with a specified radius
+calculate the X,Y coordinate of a point the specified number of degrees
+around the circle
+</p>
+<ul>
+<li>- - - - - - - - - - - - - - - - - - - -
+
+</li>
+</ul>
+        </div>
+      </div>
+
+      <div id="method-M000019" class="method-detail">
+        <a name="M000019"></a>
+
+        <div class="method-heading">
+          <a href="cncGeometry_rb.src/M000019.html" target="Code" class="method-signature"
+            onclick="popupCode('cncGeometry_rb.src/M000019.html');return false;">
+          <span class="method-name">calc_point_rotated_abs</span><span class="method-args">(x,y, angle)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+for a circle centered on cirX, cirY with a point px,py which is at pdegree
+on the perimiter of the circle calculate a new x,y point
+</p>
+<ul>
+<li>- - - - - - - - - - - - - - - - - - - - - - - - -
+
+</li>
+</ul>
+        </div>
+      </div>
+
+      <div id="method-M000018" class="method-detail">
+        <a name="M000018"></a>
+
+        <div class="method-heading">
+          <a href="cncGeometry_rb.src/M000018.html" target="Code" class="method-signature"
+            onclick="popupCode('cncGeometry_rb.src/M000018.html');return false;">
+          <span class="method-name">calc_point_rotated_relative</span><span class="method-args">(x,y, theta)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+rotate point x,y around 0,0 axis by theta theta degrees where theta is the
+number of degrees to rotate by and return a new point with the newly
+calculated x,y locations.
+</p>
+<ul>
+<li>- - - - - - - - - - - - - - - - - - - - - - - - -
+
+</li>
+</ul>
+        </div>
+      </div>
+
+      <div id="method-M000022" class="method-detail">
+        <a name="M000022"></a>
+
+        <div class="method-heading">
+          <a href="cncGeometry_rb.src/M000022.html" target="Code" class="method-signature"
+            onclick="popupCode('cncGeometry_rb.src/M000022.html');return false;">
+          <span class="method-name">calc_points_for_arc</span><span class="method-args">(cx, cy,radius=1.0, beg_angle=0, end_angle = 360, degree_inc = 1.0)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Calculate the number of points specified between the start and stop angle
+and return an array of point containing those coordinates.
+</p>
+<ul>
+<li>- - - - - - - - - - - - - - - - - - - -
+
+</li>
+</ul>
+        </div>
+      </div>
+
+      <div id="method-M000012" class="method-detail">
+        <a name="M000012"></a>
+
+        <div class="method-heading">
+          <a href="cncGeometry_rb.src/M000012.html" target="Code" class="method-signature"
+            onclick="popupCode('cncGeometry_rb.src/M000012.html');return false;">
+          <span class="method-name">calc_slope</span><span class="method-args">(x1, y1, x2, y2)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <pre>
+ Return the slope of a line where the number returned
+ is the change of X divided by the change of
+ y.
+ If   Y  did not change then the slope
+ is 0.
+</pre>
+<p>
+Accept a line description between two points
+</p>
+<pre>
+ and return
+ the rise over run for that line.
+ - - - - - - - - - - - - - - - - - - - -
+</pre>
+        </div>
+      </div>
+
+      <div id="method-M000010" class="method-detail">
+        <a name="M000010"></a>
+
+        <div class="method-heading">
+          <a href="cncGeometry_rb.src/M000010.html" target="Code" class="method-signature"
+            onclick="popupCode('cncGeometry_rb.src/M000010.html');return false;">
+          <span class="method-name">conv_degree_to_radian</span><span class="method-args">(aNum)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <pre>
+ Conver a number in degrees to radians.
+ this is used by most angle calculation functions
+ because they expect input in radian and
+ produce output in radians whereas Joe
+ normally works in degrees.
+ original formual from Google.
+   //Dim radians As Double = ((angle + rotation + 360) Mod 360) * Math.PI /
+</pre>
+<ul>
+<li>- - - - - - - - - - - - - - - - - - -
+
+</li>
+</ul>
+        </div>
+      </div>
+
+      <div id="method-M000015" class="method-detail">
+        <a name="M000015"></a>
+
+        <div class="method-heading">
+          <a href="cncGeometry_rb.src/M000015.html" target="Code" class="method-signature"
+            onclick="popupCode('cncGeometry_rb.src/M000015.html');return false;">
+          <span class="method-name">conv_polar_to_xy</span><span class="method-args">(distance, angle_deg)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <ul>
+<li>- - - - - - - - - - - - - - - - - - -
+
+</li>
+</ul>
+        </div>
+      </div>
+
+      <div id="method-M000011" class="method-detail">
+        <a name="M000011"></a>
+
+        <div class="method-heading">
+          <a href="cncGeometry_rb.src/M000011.html" target="Code" class="method-signature"
+            onclick="popupCode('cncGeometry_rb.src/M000011.html');return false;">
+          <span class="method-name">conv_radian_to_degree</span><span class="method-args">(aNum)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Convert a number in radians
+</p>
+<pre>
+ to degrees.
+</pre>
+<ul>
+<li>- - - - - - - - - - - - - - - - - - -
+
+</li>
+</ul>
+        </div>
+      </div>
+
+      <div id="method-M000014" class="method-detail">
+        <a name="M000014"></a>
+
+        <div class="method-heading">
+          <a href="cncGeometry_rb.src/M000014.html" target="Code" class="method-signature"
+            onclick="popupCode('cncGeometry_rb.src/M000014.html');return false;">
+          <span class="method-name">conv_xy_to_polar</span><span class="method-args">(x,y)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <pre>
+ WARNING:  Polar coordinates will return
+   a number with is relative to the X axis not
+   the Y axis.   So you have to start your
+   circle on 0 degree line.   Polar coordinates
+   do not take into account which side of the
+   Y axis they are on so the angle is always
+   relative to the X axis.
+</pre>
+<ul>
+<li>- - - - - - - - - - - - - - - - - - -
+
+</li>
+</ul>
+        </div>
+      </div>
+
+      <div id="method-M000026" class="method-detail">
+        <a name="M000026"></a>
+
+        <div class="method-heading">
+          <a href="cncGeometry_rb.src/M000026.html" target="Code" class="method-signature"
+            onclick="popupCode('cncGeometry_rb.src/M000026.html');return false;">
+          <span class="method-name">get_arc_points</span><span class="method-args">(cx,cy,radius, beg_angle, end_angle, degree_inc = 1.0)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Return an array of points for an arc segment starting at beg_angle and
+ending at end_angle with the specified radius.
+</p>
+<ul>
+<li>- - - - - - - - - - - - - - - - - - -
+
+</li>
+</ul>
+        </div>
+      </div>
+
+      <div id="method-M000016" class="method-detail">
+        <a name="M000016"></a>
+
+        <div class="method-heading">
+          <a href="cncGeometry_rb.src/M000016.html" target="Code" class="method-signature"
+            onclick="popupCode('cncGeometry_rb.src/M000016.html');return false;">
+          <span class="method-name">polar_to_xy_</span><span class="method-args">(aPolar)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <ul>
+<li>- - - - - - - - - - - - - - - - - - -
+
+</li>
+</ul>
+        </div>
+      </div>
+
+      <div id="method-M000025" class="method-detail">
+        <a name="M000025"></a>
+
+        <div class="method-heading">
+          <a href="cncGeometry_rb.src/M000025.html" target="Code" class="method-signature"
+            onclick="popupCode('cncGeometry_rb.src/M000025.html');return false;">
+          <span class="method-name">rotate_array</span><span class="method-args">(aArray, off_x, off_y, rel_angle, change_in_place=false)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+walk across an array of points and adjust their X,Y locations as rotated
+around their center point.
+</p>
+<ul>
+<li>- - - - - - - - - - - - - - - - - - - -
+
+</li>
+</ul>
+        </div>
+      </div>
+
+      <div id="method-M000020" class="method-detail">
+        <a name="M000020"></a>
+
+        <div class="method-heading">
+          <a href="cncGeometry_rb.src/M000020.html" target="Code" class="method-signature"
+            onclick="popupCode('cncGeometry_rb.src/M000020.html');return false;">
+          <span class="method-name">rotate_object</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000009" class="method-detail">
+        <a name="M000009"></a>
+
+        <div class="method-heading">
+          <a href="cncGeometry_rb.src/M000009.html" target="Code" class="method-signature"
+            onclick="popupCode('cncGeometry_rb.src/M000009.html');return false;">
+          <span class="method-name">to_f</span><span class="method-args">(aNum)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+makes sure our number is a float object because some operations fail when a
+integer is used where float was expected.
+</p>
+<ul>
+<li>- - - - - - - - - - - - - - - - -
+
+</li>
+</ul>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>
